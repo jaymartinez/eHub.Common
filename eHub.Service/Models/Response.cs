@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
-namespace eHub.Services.Core.Models
+namespace eHub.Service.Core.Models
 {
     [DataContract]
     public class Response<T>
@@ -12,6 +10,6 @@ namespace eHub.Services.Core.Models
         public T Data { get; set; }
 
         [DataMember]
-        public List<string> messages { get; set; }
+        public List<string> Messages { get; set; }
     }
 }

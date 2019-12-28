@@ -1,17 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace eHub.Services.Core.Models
+﻿
+namespace eHub.Service.Core.Models
 {
-    public enum Equipment
+    public class Equipment
     {
-        PoolPump = 5,
-        SpaPump = 6,
-        Heater = 17,
-        BoosterPump = 18,
-        PoolLight = 19,
-        SpaLight = 20,
-        GroundLights = 21
+        public EquipmentType Type { get; }
+        public string Title { get; }
+
+        public Equipment(EquipmentType type)
+        {
+            Type = type;
+
+            switch (Type)
+            {
+                case EquipmentType.PoolPump:
+                    Title = "Pool Pump";
+                    break;
+                case EquipmentType.SpaPump:
+                    Title = "Spa Pump";
+                    break;
+                case EquipmentType.Heater:
+                    Title = nameof(EquipmentType.Heater);
+                    break;
+                case EquipmentType.BoosterPump:
+                    Title = "Booster Pump";
+                    break;
+                case EquipmentType.PoolLight:
+                    Title = "Pool Light";
+                    break;
+                case EquipmentType.SpaLight:
+                    Title = "Spa Light";
+                    break;
+                case EquipmentType.GroundLights:
+                    Title = "Ground Lights";
+                    break;
+                default:
+                    Title = "Unknown Equipment";
+                    break;
+            }
+        }
     }
 }

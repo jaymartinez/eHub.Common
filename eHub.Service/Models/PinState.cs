@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace eHub.Services.Core.Models
+﻿
+namespace eHub.Service.Core.Models
 {
     public enum PinState
     {

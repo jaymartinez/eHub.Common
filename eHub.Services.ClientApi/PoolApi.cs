@@ -1,11 +1,7 @@
 ﻿using System;
 
-namespace eHub.Services.ClientApi
+namespace eHub.Services.Api
 {
-    public interface IPoolApi
-    {
-
-    }
 
     public class PoolApi : IPoolApi
     {
