@@ -15,9 +15,10 @@ namespace eHub.Service.Core.Services
             _api = api;
         }
 
-        async Task<List<PiPin>> IPoolService.GetAllStatuses()
+        public async Task<IEnumerable<PiPin>> GetAllStatuses()
         {
             var response = await _api.GetAllStatuses();
+
             if (response == null
                 || response.Data == null)
             {
@@ -27,7 +28,7 @@ namespace eHub.Service.Core.Services
             return response.Data;
         }
 
-        async Task<PiPin> IPoolService.GetPinStatus(EquipmentType equipmentType)
+        public async Task<PiPin> GetPinStatus(EquipmentType equipmentType)
         {
             var response = await _api.GetStatus(equipmentType);
             if (response == null
@@ -39,7 +40,7 @@ namespace eHub.Service.Core.Services
             return response.Data;
         }
 
-        Task<List<string>> IPoolService.SetSchedule(DateTime startTime, DateTime endTime)
+        public Task<IEnumerable<string>> SetSchedule(DateTime startTime, DateTime endTime)
         {
             return null;
         }

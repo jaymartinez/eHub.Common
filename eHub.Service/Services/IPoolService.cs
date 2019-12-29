@@ -17,7 +17,7 @@ namespace eHub.Service.Core.Services
         /// Gets statuses for all pins in use.
         /// </summary>
         /// <returns><see cref="PiPin"/></returns>
-        Task<List<PiPin>> GetAllStatuses();
+        Task<IEnumerable<PiPin>> GetAllStatuses();
 
         /// <summary>
         /// Sets the main pool schedule.
@@ -26,6 +26,6 @@ namespace eHub.Service.Core.Services
         /// <param name="startTime">When to start the pump.</param>
         /// <param name="endTime">When to stop the pump.</param>
         /// <returns>List of messages from the server.</returns>
-        Task<List<string>> SetSchedule(DateTime startTime, DateTime endTime);
+        Task<IEnumerable<string>> SetSchedule(DateTime startTime, DateTime endTime);
     }
 }

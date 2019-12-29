@@ -20,13 +20,13 @@ namespace eHub.Service.Core.Api
             return result;
         }
 
-        public async Task<Response<List<PiPin>>> GetAllStatuses()
+        public async Task<Response<IEnumerable<PiPin>>> GetAllStatuses()
         {
-            var result = await _webApi.Get<List<PiPin>>("/allStatuses");
+            var result = await _webApi.Get<IEnumerable<PiPin>>("/allStatuses");
             return result;
         }
 
-        public async Task<List<string>> SetSchedule(DateTime startTime, DateTime endTime)
+        public async Task<IEnumerable<string>> SetSchedule(DateTime startTime, DateTime endTime)
         {
             string startDateStr = startTime.ToString(@"MM\/dd\/yyyy HH:mm");
             string endDateStr = endTime.ToString(@"MM\/dd\/yyyy HH:mm");
