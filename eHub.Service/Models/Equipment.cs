@@ -1,5 +1,5 @@
 ﻿
-namespace eHub.Service.Core.Models
+namespace eHub.Common.Models
 {
     public class Equipment
     {

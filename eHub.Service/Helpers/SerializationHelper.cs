@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using System;
 
-namespace eHub.Service.Core.Api
+namespace eHub.Common.Helpers
 {
     public class SerializationHelper
     {
@@ -35,6 +36,7 @@ namespace eHub.Service.Core.Api
                 Error = delegate (object sender, ErrorEventArgs args)
                 {
                     args.ErrorContext.Handled = true;
+                    Console.WriteLine($"\n\tError in JsonToObject, json=[{json}]");
                 },
 
                 DateFormatString = DateFormat,

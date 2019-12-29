@@ -1,10 +1,10 @@
-﻿using eHub.Service.Core.Api;
-using eHub.Service.Core.Models;
+﻿using eHub.Common.Api;
+using eHub.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace eHub.Service.Core.Services
+namespace eHub.Common.Services
 {
     public class PoolService : BaseService, IPoolService
     {

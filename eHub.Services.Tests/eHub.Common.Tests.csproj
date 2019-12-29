@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\eHub.Service\eHub.Service.Core.csproj" />
+    <ProjectReference Include="..\eHub.Service\eHub.Common.csproj" />
   </ItemGroup>
 
 </Project>

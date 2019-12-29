@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace eHub.Service.Core.Services
+namespace eHub.Common.Services
 {
     public class BaseService
     {

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHub.Service.Core", "eHub.Service\eHub.Service.Core.csproj", "{22E53E71-6ED0-4B2B-B721-157F182AFCE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHub.Common", "eHub.Service\eHub.Common.csproj", "{22E53E71-6ED0-4B2B-B721-157F182AFCE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eHub.Services.Tests", "eHub.Services.Tests\eHub.Services.Tests.csproj", "{BD7BD2BB-2E2B-4B06-9864-99A683B04E2E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eHub.Common.Tests", "eHub.Services.Tests\eHub.Common.Tests.csproj", "{BD7BD2BB-2E2B-4B06-9864-99A683B04E2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

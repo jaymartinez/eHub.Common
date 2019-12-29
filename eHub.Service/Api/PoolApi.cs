@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using eHub.Service.Core.Models;
+using eHub.Common.Models;
 
-namespace eHub.Service.Core.Api
+namespace eHub.Common.Api
 {
     public class PoolApi : IPoolApi
     {

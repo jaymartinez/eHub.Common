@@ -4,11 +4,11 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using eHub.Service.Core.Models;
+using eHub.Common.Models;
 
-using JsonHelper = eHub.Service.Core.Api.SerializationHelper;
+using JsonHelper = eHub.Common.Helpers.SerializationHelper;
 
-namespace eHub.Service.Core.Api
+namespace eHub.Common.Api
 {
     public class WebInterface : IWebInterface
     {
@@ -18,36 +18,37 @@ namespace eHub.Service.Core.Api
 
         public WebInterface()
         {
+            /*
             var handler = new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
             };
+            */
 
-            _client = new HttpClient(handler)
+            //_client = new HttpClient(handler)
+            _client = new HttpClient()
             {
                 BaseAddress = new Uri(BaseUrl)
             };
         }
 
-        public async Task<Response<T>> Get<T>(string route)
+        public async Task<T> Get<T>(string route)
         {
             var uri = new Uri(_client.BaseAddress, route);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
             try
             {
                 var response = await _client.SendAsync(request);
-                return await HandleResponse<Response<T>>(response);
+                return await HandleResponse<T>(response);
             }
             catch (Exception e)
             {
-                return new Response<T>
-                {
-                    Messages = new List<string> { $"Error: {e.Message} \\nStackTrace:{e.StackTrace}" }
-                };
+                Console.WriteLine($"\n\t--->Error in Get<T>({route})...{e.Message}\n\t{e.StackTrace}");
+                throw e;
             }
         }
 
-        public async Task<Response<T>> Get<T>(string route, object body)
+        public async Task<T> Get<T>(string route, object body)
         {
             var uri = new Uri(_client.BaseAddress, route);
             var request = new HttpRequestMessage(HttpMethod.Get, uri)
@@ -58,24 +59,22 @@ namespace eHub.Service.Core.Api
             try
             {
                 var response = await _client.SendAsync(request);
-                return await HandleResponse<Response<T>>(response);
+                return await HandleResponse<T>(response);
             }
             catch (Exception e)
             {
-                return new Response<T>
-                {
-                    Messages = new List<string> { $"Error: {e.Message} \\nStackTrace:{e.StackTrace}" }
-                };
+                Console.WriteLine($"\n\t--->Error in Get<T>(route, body)...{e.Message}\n\t{e.StackTrace}");
+                throw e;
             }
 
         }
 
-        Task<Response<T>> IWebInterface.Post<T>(string route)
+        Task<T> IWebInterface.Post<T>(string route)
         {
             throw new NotImplementedException();
         }
 
-        Task<Response<T>> IWebInterface.Post<T>(string route, object body)
+        Task<T> IWebInterface.Post<T>(string route, object body)
         {
             throw new NotImplementedException();
         }

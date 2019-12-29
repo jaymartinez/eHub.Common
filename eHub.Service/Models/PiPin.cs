@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace eHub.Service.Core.Models
+namespace eHub.Common.Models
 {
     [Serializable]
     public class PiPin

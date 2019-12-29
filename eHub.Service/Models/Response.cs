@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace eHub.Service.Core.Models
+namespace eHub.Common.Models
 {
     [DataContract]
     public class Response<T>

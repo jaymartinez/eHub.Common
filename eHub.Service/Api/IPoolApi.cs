@@ -1,9 +1,9 @@
-﻿using eHub.Service.Core.Models;
+﻿using eHub.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace eHub.Service.Core.Api
+namespace eHub.Common.Api
 {
     public interface IPoolApi
     {

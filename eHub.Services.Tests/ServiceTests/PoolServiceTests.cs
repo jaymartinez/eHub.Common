@@ -1,13 +1,13 @@
 using DeepEqual.Syntax;
-using eHub.Service.Core.Api;
-using eHub.Service.Core.Models;
-using eHub.Service.Core.Services;
+using eHub.Common.Api;
+using eHub.Common.Models;
+using eHub.Common.Services;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Tests.Core
+namespace eHub.Common.Tests
 {
     [TestFixture]
     public class PoolServiceTests

@@ -1,14 +1,14 @@
-﻿using eHub.Service.Core.Models;
+﻿using eHub.Common.Models;
 using System;
 using System.Threading.Tasks;
 
-namespace eHub.Service.Core.Api
+namespace eHub.Common.Api
 {
     public interface IWebInterface : IDisposable
     {
-        Task<Response<T>> Get<T>(string route);
-        Task<Response<T>> Get<T>(string route, object body);
-        Task<Response<T>> Post<T>(string route);
-        Task<Response<T>> Post<T>(string route, object body);
+        Task<T> Get<T>(string route);
+        Task<T> Get<T>(string route, object body);
+        Task<T> Post<T>(string route);
+        Task<T> Post<T>(string route, object body);
     }
 }
