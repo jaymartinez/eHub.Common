@@ -10,6 +10,6 @@ namespace eHub.Common.Models
         public T Data { get; set; }
 
         [DataMember]
-        public List<string> Messages { get; set; }
+        public List<string> Messages { get; set; } = new List<string>();
     }
 }

@@ -5,6 +5,7 @@ using eHub.Common.Services;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace eHub.Common.Tests
@@ -24,30 +25,28 @@ namespace eHub.Common.Tests
         public async Task GetAllStatuses_Null_Response()
         {
             // Arrange
-            _poolApiMock.Setup(x => x.GetAllStatuses())
-                .ReturnsAsync(default(Response<IEnumerable<PiPin>>));
+            _poolApiMock.Setup(x => x.GetAllStatuses()).ReturnsAsync(default(IEnumerable<PiPin>));
             var poolService = new PoolService(_poolApiMock.Object);
 
             // Act
             var result = await poolService.GetAllStatuses();
 
             // Assert
-            Assert.That(result, Is.Null);
+            Assert.That(result, Is.EqualTo(Enumerable.Empty<PiPin>()));
         }
 
         [Test]
         public async Task GetAllStatuses_Null_Data()
         {
             // Arrange
-            _poolApiMock.Setup(x => x.GetAllStatuses())
-                .ReturnsAsync(new Response<IEnumerable<PiPin>>());
+            _poolApiMock.Setup(x => x.GetAllStatuses()).ReturnsAsync(Enumerable.Empty<PiPin>());
             var poolService = new PoolService(_poolApiMock.Object);
 
             // Act
             var result = await poolService.GetAllStatuses();
 
             // Assert
-            Assert.That(result, Is.Null);
+            Assert.That(result, Is.EqualTo(Enumerable.Empty<PiPin>()));
         }
 
         [Test]
@@ -55,8 +54,7 @@ namespace eHub.Common.Tests
         {
             // Arrange
             var testData = GetTestPins(PinState.ON);
-            _poolApiMock.Setup(x => x.GetAllStatuses())
-                .ReturnsAsync(new Response<IEnumerable<PiPin>> { Data = testData });
+            _poolApiMock.Setup(x => x.GetAllStatuses()).ReturnsAsync(testData);
             var poolService = new PoolService(_poolApiMock.Object);
 
             // Act
