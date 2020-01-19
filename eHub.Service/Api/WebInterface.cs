@@ -12,7 +12,7 @@ namespace eHub.Common.Api
 {
     public class WebInterface : IWebInterface
     {
-        const string BaseUrl = "http://192.168.0.17:9000";
+        const string BaseUrl = "https://192.168.0.17:9000";
 
         readonly HttpClient _client;
 
@@ -34,10 +34,10 @@ namespace eHub.Common.Api
 
         public async Task<T> Get<T>(string route)
         {
-            var uri = new Uri(_client.BaseAddress, route);
-            var request = new HttpRequestMessage(HttpMethod.Get, uri);
             try
             {
+                var uri = new Uri(_client.BaseAddress, route);
+                var request = new HttpRequestMessage(HttpMethod.Get, uri);
                 var response = await _client.SendAsync(request);
                 return await HandleResponse<T>(response);
             }
@@ -50,14 +50,14 @@ namespace eHub.Common.Api
 
         public async Task<T> Get<T>(string route, object body)
         {
-            var uri = new Uri(_client.BaseAddress, route);
-            var request = new HttpRequestMessage(HttpMethod.Get, uri)
-            {
-                Content = GetBodyContent(body)
-            };
-
             try
             {
+                var uri = new Uri(_client.BaseAddress, route);
+                var request = new HttpRequestMessage(HttpMethod.Get, uri)
+                {
+                    Content = GetBodyContent(body)
+                };
+
                 var response = await _client.SendAsync(request);
                 return await HandleResponse<T>(response);
             }

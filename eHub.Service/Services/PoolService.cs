@@ -2,11 +2,12 @@
 using eHub.Common.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace eHub.Common.Services
 {
-    public class PoolService : BaseService, IPoolService
+    public class PoolService : IPoolService
     {
         readonly IPoolApi _api;
 
@@ -17,27 +18,13 @@ namespace eHub.Common.Services
 
         public async Task<IEnumerable<PiPin>> GetAllStatuses()
         {
-            var response = await _api.GetAllStatuses();
-
-            if (response == null
-                || response.Data == null)
-            {
-                return null;
-            }
-
-            return response.Data;
+            var result = await _api.GetAllStatuses();
+            return result ?? Enumerable.Empty<PiPin>();
         }
 
         public async Task<PiPin> GetPinStatus(EquipmentType equipmentType)
         {
-            var response = await _api.GetStatus(equipmentType);
-            if (response == null
-                || response.Data == null)
-            {
-                HandleMessages(response.Messages);
-            }
-
-            return response.Data;
+            return await _api.GetStatus(equipmentType);
         }
 
         public Task<IEnumerable<string>> SetSchedule(DateTime startTime, DateTime endTime)

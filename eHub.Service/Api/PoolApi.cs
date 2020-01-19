@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using eHub.Common.Models;
 
 namespace eHub.Common.Api
 {
-    public class PoolApi : IPoolApi
+    public class PoolApi : BaseApi, IPoolApi
     {
         readonly IWebInterface _webApi;
 
@@ -14,16 +15,41 @@ namespace eHub.Common.Api
             _webApi = webInterface;
         }
 
-        public async Task<Response<PiPin>> GetStatus(EquipmentType equipmentType)
+        public async Task<PiPin> GetStatus(EquipmentType equipmentType)
         {
-            var result = await _webApi.Get<PiPin>($"status?pinNumber={(int)equipmentType}");
-            return result;
+            Response<PiPin> result = null;
+            try
+            {
+                result = await _webApi.Get<Response<PiPin>>($"status?pinNumber={(int)equipmentType}");
+            }
+            catch (Exception e)
+            {
+                result.Messages.Add(e.Message);
+            }
+
+            HandleMessages(result.Messages ?? new List<string>());
+            return result.Data ?? null;
         }
 
-        public async Task<Response<IEnumerable<PiPin>>> GetAllStatuses()
+        public async Task<IEnumerable<PiPin>> GetAllStatuses()
         {
-            var result = await _webApi.Get<IEnumerable<PiPin>>("/allStatuses");
-            return result;
+            var result = default(Response<IEnumerable<PiPin>>);
+
+            try
+            {
+                result = await _webApi.Get<Response<IEnumerable<PiPin>>>("/allStatuses");
+            }
+            catch (Exception e)
+            {
+                result = new Response<IEnumerable<PiPin>>
+                {
+                    Data = null,
+                    Messages = new List<string> { e.Message, e.StackTrace }
+                };
+            }
+            
+            HandleMessages(result.Messages ?? new List<string>());
+            return result.Data ?? Enumerable.Empty<PiPin>();
         }
 
         public async Task<IEnumerable<string>> SetSchedule(DateTime startTime, DateTime endTime)
