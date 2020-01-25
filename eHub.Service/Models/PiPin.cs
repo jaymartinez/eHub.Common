@@ -15,7 +15,7 @@ namespace eHub.Common.Models
 
         /// <summary>
         /// The GPIO pin number
-        /// </summary>
+        /// </summary>C:\dev\eHub.Common\eHub.Service\Models\PiPin.cs
         [DataMember]
         public EquipmentType PinNumber { get; set; }
 
@@ -27,8 +27,5 @@ namespace eHub.Common.Models
                 return State == PinState.ON ? "On" : "Off";
             }
         }
-
-        
-        
     }
 }

@@ -5,14 +5,14 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using eHub.Common.Models;
-
+using Newtonsoft.Json;
 using JsonHelper = eHub.Common.Helpers.SerializationHelper;
 
 namespace eHub.Common.Api
 {
     public class WebInterface : IWebInterface
     {
-        const string BaseUrl = "https://192.168.0.17:9000";
+        const string BaseUrl = "http://192.168.0.17:9000/";
 
         readonly HttpClient _client;
 
@@ -23,9 +23,9 @@ namespace eHub.Common.Api
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
             };
+            _client = new HttpClient(handler)
             */
 
-            //_client = new HttpClient(handler)
             _client = new HttpClient()
             {
                 BaseAddress = new Uri(BaseUrl)
@@ -66,7 +66,6 @@ namespace eHub.Common.Api
                 Console.WriteLine($"\n\t--->Error in Get<T>(route, body)...{e.Message}\n\t{e.StackTrace}");
                 throw e;
             }
-
         }
 
         Task<T> IWebInterface.Post<T>(string route)
@@ -78,7 +77,6 @@ namespace eHub.Common.Api
         {
             throw new NotImplementedException();
         }
-
 
         HttpContent GetBodyContent(object body)
         {
@@ -102,9 +100,9 @@ namespace eHub.Common.Api
             }
 
             var json = await response.Content.ReadAsStringAsync();
-            return JsonHelper.JsonToObject<T>(json);
+            var result = JsonConvert.DeserializeObject<T>(json);
+            return result;
         }
-
 
         void IDisposable.Dispose()
         {

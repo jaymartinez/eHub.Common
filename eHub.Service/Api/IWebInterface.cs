@@ -1,5 +1,4 @@
-﻿using eHub.Common.Models;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace eHub.Common.Api

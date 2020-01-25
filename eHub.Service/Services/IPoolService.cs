@@ -11,7 +11,7 @@ namespace eHub.Common.Services
         /// Gets the status for a pin.
         /// </summary>
         /// <param name="equipmentType">The equipment to get the status for.</param>
-        Task<PiPin> GetPinStatus(EquipmentType equipmentType);
+        Task<PiPin> GetPinStatus(EquipmentType pin);
 
         /// <summary>
         /// Gets statuses for all pins in use.
@@ -20,12 +20,23 @@ namespace eHub.Common.Services
         Task<IEnumerable<PiPin>> GetAllStatuses();
 
         /// <summary>
+        /// Heartbeat check.
+        /// </summary>
+        /// <returns>A list of messages (probably just one) from the server.</returns>
+        Task<IEnumerable<string>> Ping();
+
+        /// <summary>
         /// Sets the main pool schedule.
         /// Ideally we could have a schedule for each piece of equipment.
         /// </summary>
         /// <param name="startTime">When to start the pump.</param>
         /// <param name="endTime">When to stop the pump.</param>
-        /// <returns>List of messages from the server.</returns>
-        Task<IEnumerable<string>> SetSchedule(DateTime startTime, DateTime endTime);
+        /// <returns>The schedule that was just saved.</returns>
+        Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime);
+
+        Task<PoolSchedule> GetSchedule();
+
+        Task<PiPin> Toggle(EquipmentType pin);
+
     }
 }

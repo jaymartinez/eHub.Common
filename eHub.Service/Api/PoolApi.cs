@@ -15,12 +15,12 @@ namespace eHub.Common.Api
             _webApi = webInterface;
         }
 
-        public async Task<PiPin> GetStatus(EquipmentType equipmentType)
+        public async Task<PiPin> GetStatus(EquipmentType pin)
         {
             Response<PiPin> result = null;
             try
             {
-                result = await _webApi.Get<Response<PiPin>>($"status?pinNumber={(int)equipmentType}");
+                result = await _webApi.Get<Response<PiPin>>($"status?pinNumber={(int)pin}");
             }
             catch (Exception e)
             {
@@ -52,12 +52,59 @@ namespace eHub.Common.Api
             return result.Data ?? Enumerable.Empty<PiPin>();
         }
 
-        public async Task<IEnumerable<string>> SetSchedule(DateTime startTime, DateTime endTime)
+        public async Task<PoolSchedule> SetSchedule(string startTimeStr, string endTimeStr)
         {
-            string startDateStr = startTime.ToString(@"MM\/dd\/yyyy HH:mm");
-            string endDateStr = endTime.ToString(@"MM\/dd\/yyyy HH:mm");
+            var result = await _webApi.Get<Response<PoolSchedule>>(
+                $"setSchedule?startDate={startTimeStr}&endDate={endTimeStr}");
 
-            throw new NotImplementedException();
+            var msgs = Enumerable.Empty<string>();
+            if (result.Messages?.Count > 0)
+            {
+                msgs = result.Messages;
+                Console.WriteLine(">>> Handling Messages from Response.");
+                HandleMessages(result.Messages);
+            }
+
+            return result.Data;
+        }
+
+        public async Task<IEnumerable<string>> Ping()
+        {
+            var result = await _webApi.Get<Response<IEnumerable<string>>>("ping");
+            return result.Messages ?? Enumerable.Empty<string>();
+        }
+
+        public async Task<PoolSchedule> GetSchedule()
+        {
+            var result = await _webApi.Get<Response<PoolSchedule>>("getSchedule");
+            return result.Data;
+        }
+
+        public async Task<PiPin> Toggle(EquipmentType pin)
+        {
+            var url = string.Empty;
+
+            switch (pin)
+            {
+                case EquipmentType.PoolPump:
+                    url = "poolPump";
+                    break;
+                case EquipmentType.Heater:
+                    url = "heater";
+                    break;
+                case EquipmentType.SpaLight:
+                    url = "spaLight";
+                    break;
+                case EquipmentType.SpaPump:
+                    url = "spaPump";
+                    break;
+                case EquipmentType.BoosterPump:
+                    url = "boosterPump";
+                    break;
+            }
+
+            var toggle = await _webApi.Get<PiPin>(url);
+            return toggle;
         }
     }
 }
