@@ -7,6 +7,9 @@ namespace eHub.Common.Models
     public class PoolSchedule
     {
         [DataMember]
+        public bool IncludeBooster { get; set; } = false;
+
+        [DataMember]
         public int StartHour { get; set; } = 8;
 
         [DataMember]

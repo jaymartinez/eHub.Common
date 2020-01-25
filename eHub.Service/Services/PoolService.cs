@@ -33,7 +33,7 @@ namespace eHub.Common.Services
             return result;
         }
 
-        public async Task<IEnumerable<string>> Ping()
+        public async Task<bool> Ping()
         {
             return await _api.Ping();
         }

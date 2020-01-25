@@ -64,10 +64,22 @@ namespace eHub.Common.Api
             return result?.Data ?? default(PoolSchedule);
         }
 
-        public async Task<IEnumerable<string>> Ping()
+        public async Task<bool> Ping()
         {
-            var result = await _webApi.Get<Response<IEnumerable<string>>>("ping");
-            return result?.Messages ?? Enumerable.Empty<string>();
+            try
+            {
+                var result = await _webApi.Get<Response<IEnumerable<string>>>("ping");
+                if(result?.Messages?.Count() == 1 && result.Messages.ElementAt(0).ToLower().Equals("ok"))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public async Task<PoolSchedule> GetSchedule()

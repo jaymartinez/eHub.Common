@@ -22,8 +22,8 @@ namespace eHub.Common.Services
         /// <summary>
         /// Heartbeat check.
         /// </summary>
-        /// <returns>A list of messages (probably just one) from the server.</returns>
-        Task<IEnumerable<string>> Ping();
+        /// <returns>True if the ping succeeded.</returns>
+        Task<bool> Ping();
 
         /// <summary>
         /// Sets the main pool schedule.

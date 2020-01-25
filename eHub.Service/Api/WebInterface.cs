@@ -38,6 +38,7 @@ namespace eHub.Common.Api
             {
                 var uri = new Uri(_client.BaseAddress, route);
                 var request = new HttpRequestMessage(HttpMethod.Get, uri);
+                _client.Timeout = TimeSpan.FromSeconds(5);
                 var response = await _client.SendAsync(request);
                 return await HandleResponse<T>(response);
             }
