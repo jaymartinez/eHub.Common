@@ -27,8 +27,8 @@ namespace eHub.Common.Api
                 result.Messages.Add(e.Message);
             }
 
-            HandleMessages(result.Messages ?? new List<string>());
-            return result.Data ?? null;
+            HandleMessages(result?.Messages ?? new List<string>());
+            return result?.Data ?? null;
         }
 
         public async Task<IEnumerable<PiPin>> GetAllStatuses()
@@ -44,8 +44,8 @@ namespace eHub.Common.Api
                 result.Messages.Add(e.Message);
             }
             
-            HandleMessages(result.Messages ?? new List<string>());
-            return result.Data ?? Enumerable.Empty<PiPin>();
+            HandleMessages(result?.Messages ?? new List<string>());
+            return result?.Data ?? Enumerable.Empty<PiPin>();
         }
 
         public async Task<PoolSchedule> SetSchedule(string startTimeStr, string endTimeStr)
@@ -84,8 +84,15 @@ namespace eHub.Common.Api
 
         public async Task<PoolSchedule> GetSchedule()
         {
-            var result = await _webApi.Get<Response<PoolSchedule>>("getSchedule");
-            return result?.Data ?? default(PoolSchedule);
+            try
+            {
+                var result = await _webApi.Get<Response<PoolSchedule>>("getSchedule");
+                return result?.Data ?? default(PoolSchedule);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public async Task<PiPin> Toggle(EquipmentType pin)
@@ -111,8 +118,16 @@ namespace eHub.Common.Api
                     break;
             }
 
-            var toggle = await _webApi.Get<PiPin>(url);
-            return toggle;
+            try
+            {
+                var toggle = await _webApi.Get<Response<PiPin>>(url);
+                return toggle.Data;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
         }
     }
 }

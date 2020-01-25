@@ -42,10 +42,10 @@ namespace eHub.Common.Api
                 var response = await _client.SendAsync(request);
                 return await HandleResponse<T>(response);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine($"\n\t--->Error in Get<T>({route})...{e.Message}\n\t{e.StackTrace}");
-                throw e;
+                Console.WriteLine($"\n\t--->Error in Get<T>({route})");
+                return default(T);
             }
         }
 
@@ -101,7 +101,7 @@ namespace eHub.Common.Api
             }
 
             var json = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<T>(json);
+            var result = JsonHelper.JsonToObject<T>(json);
             return result;
         }
 
