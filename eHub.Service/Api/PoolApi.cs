@@ -17,7 +17,7 @@ namespace eHub.Common.Api
 
         public async Task<PiPin> GetStatus(EquipmentType pin)
         {
-            Response<PiPin> result = null;
+            var result = new Response<PiPin>();
             try
             {
                 result = await _webApi.Get<Response<PiPin>>($"status?pinNumber={(int)pin}");
@@ -33,7 +33,7 @@ namespace eHub.Common.Api
 
         public async Task<IEnumerable<PiPin>> GetAllStatuses()
         {
-            var result = default(Response<IEnumerable<PiPin>>);
+            var result = new Response<IEnumerable<PiPin>>();
 
             try
             {
@@ -41,11 +41,7 @@ namespace eHub.Common.Api
             }
             catch (Exception e)
             {
-                result = new Response<IEnumerable<PiPin>>
-                {
-                    Data = null,
-                    Messages = new List<string> { e.Message, e.StackTrace }
-                };
+                result.Messages.Add(e.Message);
             }
             
             HandleMessages(result.Messages ?? new List<string>());
@@ -65,19 +61,19 @@ namespace eHub.Common.Api
                 HandleMessages(result.Messages);
             }
 
-            return result.Data;
+            return result?.Data ?? default(PoolSchedule);
         }
 
         public async Task<IEnumerable<string>> Ping()
         {
             var result = await _webApi.Get<Response<IEnumerable<string>>>("ping");
-            return result.Messages ?? Enumerable.Empty<string>();
+            return result?.Messages ?? Enumerable.Empty<string>();
         }
 
         public async Task<PoolSchedule> GetSchedule()
         {
             var result = await _webApi.Get<Response<PoolSchedule>>("getSchedule");
-            return result.Data;
+            return result?.Data ?? default(PoolSchedule);
         }
 
         public async Task<PiPin> Toggle(EquipmentType pin)
