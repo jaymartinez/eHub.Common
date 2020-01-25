@@ -7,8 +7,11 @@ namespace eHub.Common.Api
 {
     public interface IPoolApi
     {
-        Task<IEnumerable<string>> SetSchedule(DateTime startTime, DateTime endTime);
+        Task<PoolSchedule> GetSchedule();
+        Task<PoolSchedule> SetSchedule(string startTimeStr, string endTimeStr);
         Task<IEnumerable<PiPin>> GetAllStatuses();
-        Task<PiPin> GetStatus(EquipmentType equipmentType);
+        Task<PiPin> GetStatus(EquipmentType pin);
+        Task<IEnumerable<string>> Ping();
+        Task<PiPin> Toggle(EquipmentType pin);
     }
 }

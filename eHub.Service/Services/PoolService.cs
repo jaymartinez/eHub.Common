@@ -22,14 +22,39 @@ namespace eHub.Common.Services
             return result ?? Enumerable.Empty<PiPin>();
         }
 
-        public async Task<PiPin> GetPinStatus(EquipmentType equipmentType)
+        public async Task<PiPin> GetPinStatus(EquipmentType pin)
         {
-            return await _api.GetStatus(equipmentType);
+            return await _api.GetStatus(pin);
         }
 
-        public Task<IEnumerable<string>> SetSchedule(DateTime startTime, DateTime endTime)
+        public async Task<PoolSchedule> GetSchedule()
         {
-            return null;
+            var result = await _api.GetSchedule();
+            return result;
+        }
+
+        public async Task<IEnumerable<string>> Ping()
+        {
+            return await _api.Ping();
+        }
+
+        public async Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime)
+        {
+            try
+            {
+                string startDateStr = startTime.ToString(@"MM\/dd\/yyyy HH:mm");
+                string endDateStr = endTime.ToString(@"MM\/dd\/yyyy HH:mm");
+                return await _api.SetSchedule(startDateStr, endDateStr);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<PiPin> Toggle(EquipmentType pin)
+        {
+            return await _api.Toggle(pin);
         }
     }
 }
