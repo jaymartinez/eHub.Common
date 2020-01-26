@@ -3,34 +3,34 @@ namespace eHub.Common.Models
 {
     public class Equipment
     {
-        public EquipmentType Type { get; }
+        public int PinNumber { get; }
         public string Title { get; }
 
-        public Equipment(EquipmentType type)
+        public Equipment(int pin)
         {
-            Type = type;
+            PinNumber = pin;
 
-            switch (Type)
+            switch (pin)
             {
-                case EquipmentType.PoolPump:
+                case Pin.PoolPump:
                     Title = "Pool Pump";
                     break;
-                case EquipmentType.SpaPump:
+                case Pin.SpaPump:
                     Title = "Spa Pump";
                     break;
-                case EquipmentType.Heater:
-                    Title = nameof(EquipmentType.Heater);
+                case Pin.Heater:
+                    Title = "Heater";
                     break;
-                case EquipmentType.BoosterPump:
+                case Pin.BoosterPump:
                     Title = "Booster Pump";
                     break;
-                case EquipmentType.PoolLight:
+                case Pin.PoolLight:
                     Title = "Pool Light";
                     break;
-                case EquipmentType.SpaLight:
+                case Pin.SpaLight:
                     Title = "Spa Light";
                     break;
-                case EquipmentType.GroundLights:
+                case Pin.GroundLights:
                     Title = "Ground Lights";
                     break;
                 default:

@@ -10,8 +10,8 @@ namespace eHub.Common.Api
         Task<PoolSchedule> GetSchedule();
         Task<PoolSchedule> SetSchedule(string startTimeStr, string endTimeStr);
         Task<IEnumerable<PiPin>> GetAllStatuses();
-        Task<PiPin> GetStatus(EquipmentType pin);
+        Task<PiPin> GetStatus(int pin);
         Task<bool> Ping();
-        Task<PiPin> Toggle(EquipmentType pin);
+        Task<PiPin> Toggle(int pin);
     }
 }

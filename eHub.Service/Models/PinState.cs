@@ -1,13 +1,13 @@
 ﻿
 using System;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace eHub.Common.Models
 {
-    [Serializable]
-    public enum PinState
+    public static class PinState
     {
-        [XmlEnum("0")] OFF = 0,
-        [XmlEnum("1")] ON = 1
+        public const int OFF = 0;
+        public const int ON = 1;
     }
 }

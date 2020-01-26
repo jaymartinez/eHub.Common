@@ -11,13 +11,13 @@ namespace eHub.Common.Models
         /// 1: The pin is high
         /// </summary>
         [DataMember]
-        public PinState State { get; set; }
+        public int State { get; set; }
 
         /// <summary>
         /// The GPIO pin number
         /// </summary>C:\dev\eHub.Common\eHub.Service\Models\PiPin.cs
         [DataMember]
-        public EquipmentType PinNumber { get; set; }
+        public int PinNumber { get; set; }
 
         [IgnoreDataMember]
         public string StateDescription

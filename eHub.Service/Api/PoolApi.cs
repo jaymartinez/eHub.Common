@@ -15,12 +15,12 @@ namespace eHub.Common.Api
             _webApi = webInterface;
         }
 
-        public async Task<PiPin> GetStatus(EquipmentType pin)
+        public async Task<PiPin> GetStatus(int pin)
         {
             var result = new Response<PiPin>();
             try
             {
-                result = await _webApi.Get<Response<PiPin>>($"status?pinNumber={(int)pin}");
+                result = await _webApi.Get<Response<PiPin>>($"status?pinNumber={pin}");
             }
             catch (Exception e)
             {
@@ -95,25 +95,25 @@ namespace eHub.Common.Api
             }
         }
 
-        public async Task<PiPin> Toggle(EquipmentType pin)
+        public async Task<PiPin> Toggle(int pin)
         {
             var url = string.Empty;
 
             switch (pin)
             {
-                case EquipmentType.PoolPump:
+                case Pin.PoolPump:
                     url = "poolPump";
                     break;
-                case EquipmentType.Heater:
+                case Pin.Heater:
                     url = "heater";
                     break;
-                case EquipmentType.SpaLight:
+                case Pin.SpaLight:
                     url = "spaLight";
                     break;
-                case EquipmentType.SpaPump:
+                case Pin.SpaPump:
                     url = "spaPump";
                     break;
-                case EquipmentType.BoosterPump:
+                case Pin.BoosterPump:
                     url = "boosterPump";
                     break;
             }
@@ -127,7 +127,6 @@ namespace eHub.Common.Api
             {
                 return null;
             }
-
         }
     }
 }

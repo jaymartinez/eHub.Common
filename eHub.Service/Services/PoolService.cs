@@ -22,7 +22,7 @@ namespace eHub.Common.Services
             return result ?? Enumerable.Empty<PiPin>();
         }
 
-        public async Task<PiPin> GetPinStatus(EquipmentType pin)
+        public async Task<PiPin> GetPinStatus(int pin)
         {
             return await _api.GetStatus(pin);
         }
@@ -52,7 +52,7 @@ namespace eHub.Common.Services
             }
         }
 
-        public async Task<PiPin> Toggle(EquipmentType pin)
+        public async Task<PiPin> Toggle(int pin)
         {
             return await _api.Toggle(pin);
         }

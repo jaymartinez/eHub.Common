@@ -101,7 +101,7 @@ namespace eHub.Common.Api
             }
 
             var json = await response.Content.ReadAsStringAsync();
-            var result = JsonHelper.JsonToObject<T>(json);
+            var result = JsonHelper.JsonToObject<T>(json); //JsonConvert.DeserializeObject<T>(json);
             return result;
         }
 

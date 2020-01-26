@@ -11,7 +11,7 @@ namespace eHub.Common.Services
         /// Gets the status for a pin.
         /// </summary>
         /// <param name="equipmentType">The equipment to get the status for.</param>
-        Task<PiPin> GetPinStatus(EquipmentType pin);
+        Task<PiPin> GetPinStatus(int pin);
 
         /// <summary>
         /// Gets statuses for all pins in use.
@@ -36,7 +36,7 @@ namespace eHub.Common.Services
 
         Task<PoolSchedule> GetSchedule();
 
-        Task<PiPin> Toggle(EquipmentType pin);
+        Task<PiPin> Toggle(int pin);
 
     }
 }
