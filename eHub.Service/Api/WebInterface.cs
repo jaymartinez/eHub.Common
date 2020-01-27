@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using eHub.Common.Models;
-using Newtonsoft.Json;
 using JsonHelper = eHub.Common.Helpers.SerializationHelper;
 
 namespace eHub.Common.Api
 {
     public class WebInterface : IWebInterface
     {
-        const string BaseUrl = "http://192.168.0.17:9000/";
+        readonly string _baseUrl;
 
         readonly HttpClient _client;
 
-        public WebInterface()
+        public WebInterface(Configuration config)
         {
             /*
             var handler = new HttpClientHandler
@@ -26,9 +24,11 @@ namespace eHub.Common.Api
             _client = new HttpClient(handler)
             */
 
+            _baseUrl = $"{config.Environment.ApiBaseRoute}:{config.Environment.Port}/";
+
             _client = new HttpClient()
             {
-                BaseAddress = new Uri(BaseUrl)
+                BaseAddress = new Uri(_baseUrl)
             };
         }
 
@@ -101,7 +101,7 @@ namespace eHub.Common.Api
             }
 
             var json = await response.Content.ReadAsStringAsync();
-            var result = JsonHelper.JsonToObject<T>(json); //JsonConvert.DeserializeObject<T>(json);
+            var result = JsonHelper.JsonToObject<T>(json);
             return result;
         }
 
