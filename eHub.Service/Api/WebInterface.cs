@@ -16,14 +16,6 @@ namespace eHub.Common.Api
 
         public WebInterface(Configuration config)
         {
-            /*
-            var handler = new HttpClientHandler
-            {
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-            };
-            _client = new HttpClient(handler)
-            */
-
             _baseUrl = $"{config.Environment.ApiBaseRoute}:{config.Environment.Port}/";
 
             _client = new HttpClient()
