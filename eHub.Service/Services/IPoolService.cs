@@ -32,11 +32,18 @@ namespace eHub.Common.Services
         /// <param name="startTime">When to start the pump.</param>
         /// <param name="endTime">When to stop the pump.</param>
         /// <returns>The schedule that was just saved.</returns>
-        Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime);
+        Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive);
 
         Task<PoolSchedule> GetSchedule();
 
         Task<PiPin> Toggle(int pin);
 
+        /// <summary>
+        /// Enables/disables the schedule.
+        /// </summary>
+        /// <returns></returns>
+        Task<int> ToggleMasterSwitch();
+
+        Task<int> GetMasterSwitchStatus();
     }
 }

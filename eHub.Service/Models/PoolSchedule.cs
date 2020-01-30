@@ -20,5 +20,8 @@ namespace eHub.Common.Models
 
         [DataMember]
         public int EndMinute { get; set; } = 30;
+
+        [DataMember]
+        public bool IsActive { get; set; } = false;
     }
 }

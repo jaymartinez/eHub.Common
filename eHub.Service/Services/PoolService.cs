@@ -33,18 +33,23 @@ namespace eHub.Common.Services
             return result;
         }
 
+        public async Task<int> GetMasterSwitchStatus()
+        {
+            return await _api.GetMasterSwitchStatus();
+        }
+
         public async Task<bool> Ping()
         {
             return await _api.Ping();
         }
 
-        public async Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime)
+        public async Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive)
         {
             try
             {
                 string startDateStr = startTime.ToString(@"MM\/dd\/yyyy HH:mm");
                 string endDateStr = endTime.ToString(@"MM\/dd\/yyyy HH:mm");
-                return await _api.SetSchedule(startDateStr, endDateStr);
+                return await _api.SetSchedule(startDateStr, endDateStr, isActive);
             }
             catch (Exception e)
             {
@@ -55,6 +60,11 @@ namespace eHub.Common.Services
         public async Task<PiPin> Toggle(int pin)
         {
             return await _api.Toggle(pin);
+        }
+
+        public async Task<int> ToggleMasterSwitch()
+        {
+            return await _api.ToggleMasterSwitch();
         }
     }
 }

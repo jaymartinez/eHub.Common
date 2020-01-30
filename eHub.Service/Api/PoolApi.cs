@@ -48,10 +48,10 @@ namespace eHub.Common.Api
             return result?.Data ?? Enumerable.Empty<PiPin>();
         }
 
-        public async Task<PoolSchedule> SetSchedule(string startTimeStr, string endTimeStr)
+        public async Task<PoolSchedule> SetSchedule(string startTimeStr, string endTimeStr, bool isActive)
         {
             var result = await _webApi.Get<Response<PoolSchedule>>(
-                $"setSchedule?startDate={startTimeStr}&endDate={endTimeStr}");
+                $"setSchedule?startDate={startTimeStr}&endDate={endTimeStr}&isActive={isActive}");
 
             var msgs = Enumerable.Empty<string>();
             if (result.Messages?.Count > 0)
@@ -126,6 +126,32 @@ namespace eHub.Common.Api
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public async Task<int> ToggleMasterSwitch()
+        {
+            try
+            {
+                var result = await _webApi.Get<Response<int>>("toggleMasterSwitch");
+                return result.Data;
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
+        }
+
+        public async Task<int> GetMasterSwitchStatus()
+        {
+            try
+            {
+                var result = await _webApi.Get<Response<int>>("masterSwitchStatus");
+                return result.Data;
+            }
+            catch (Exception)
+            {
+                return -1;
             }
         }
     }

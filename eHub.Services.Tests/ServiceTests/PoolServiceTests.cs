@@ -65,41 +65,41 @@ namespace eHub.Common.Tests
             result.ShouldDeepEqual(testData);
         }
 
-        IEnumerable<PiPin> GetTestPins(PinState state)
+        IEnumerable<PiPin> GetTestPins(int state)
         {
             yield return new PiPin
             {
-                PinNumber = EquipmentType.PoolPump,
+                PinNumber = Pin.PoolPump,
                 State = state  
             };
             yield return new PiPin
             {
-                PinNumber = EquipmentType.BoosterPump,
+                PinNumber = Pin.BoosterPump,
                 State = state
             };
             yield return new PiPin
             {
-                PinNumber = EquipmentType.Heater,
+                PinNumber = Pin.Heater,
                 State = state
             };
             yield return new PiPin
             {
-                PinNumber = EquipmentType.PoolLight,
+                PinNumber = Pin.PoolLight,
                 State = state
             };
             yield return new PiPin
             {
-                PinNumber = EquipmentType.SpaLight,
+                PinNumber = Pin.SpaLight,
                 State = state
             };
             yield return new PiPin
             {
-                PinNumber = EquipmentType.GroundLights,
+                PinNumber = Pin.GroundLights,
                 State = state
             };
             yield return new PiPin
             {
-                PinNumber = EquipmentType.SpaPump,
+                PinNumber = Pin.SpaPump,
                 State = state
             };
         }
