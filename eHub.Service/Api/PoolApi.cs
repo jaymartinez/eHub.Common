@@ -116,6 +116,12 @@ namespace eHub.Common.Api
                 case Pin.BoosterPump:
                     url = "boosterPump";
                     break;
+                case Pin.PoolLight:
+                    url = "poolLight";
+                    break;
+                case Pin.GroundLights:
+                    url = "groundLights";
+                    break;
             }
 
             try
