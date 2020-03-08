@@ -7,7 +7,7 @@ namespace eHub.Common.Helpers
 {
     public class SerializationHelper
     {
-        const string DateFormat = "yyyy-MM-dd HH:mm:ss.fff";
+        const string DateFormat = "yyyy-MM-dd HH:mm:ss";
 
         public static string ObjectToJson<T>(T obj)
         {
