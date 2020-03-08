@@ -19,6 +19,12 @@ namespace eHub.Common.Models
         [DataMember]
         public int PinNumber { get; set; }
 
+        [DataMember]
+        public DateTime DateActivated { get; set; }
+
+        [DataMember]
+        public DateTime DateDeactivated { get; set; }
+
         [IgnoreDataMember]
         public string StateDescription
         {
