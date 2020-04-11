@@ -24,7 +24,8 @@ namespace eHub.Common.Api
             }
             catch (Exception e)
             {
-                result.Messages.Add(e.Message);
+                throw e;
+                //result.Messages.Add(e.Message);
             }
 
             HandleMessages(result?.Messages ?? new List<string>());
@@ -50,17 +51,27 @@ namespace eHub.Common.Api
 
         public async Task<PoolSchedule> SetSchedule(string startTimeStr, string endTimeStr, bool isActive)
         {
-            var result = await _webApi.Get<Response<PoolSchedule>>(
-                $"setSchedule?startDate={startTimeStr}&endDate={endTimeStr}&isActive={isActive}");
+            var result = new Response<PoolSchedule>();
 
-            var msgs = Enumerable.Empty<string>();
-            if (result.Messages?.Count > 0)
+            try
             {
-                msgs = result.Messages;
-                Console.WriteLine(">>> Handling Messages from Response.");
-                HandleMessages(result.Messages);
+                result = await _webApi.Get<Response<PoolSchedule>>(
+                    $"setSchedule?startDate={startTimeStr}&endDate={endTimeStr}&isActive={isActive}");
+
+                var msgs = Enumerable.Empty<string>();
+                if (result.Messages?.Count > 0)
+                {
+                    msgs = result.Messages;
+                    Console.WriteLine(">>> Handling Messages from Response.");
+                    HandleMessages(result.Messages);
+                }
+            }
+            catch (Exception e)
+            {
+                result.Messages.Add(e.Message);
             }
 
+            HandleMessages(result?.Messages ?? new List<string>());
             return result?.Data ?? default(PoolSchedule);
         }
 

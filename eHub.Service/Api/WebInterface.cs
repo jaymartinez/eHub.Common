@@ -20,7 +20,8 @@ namespace eHub.Common.Api
 
             _client = new HttpClient()
             {
-                BaseAddress = new Uri(_baseUrl)
+                BaseAddress = new Uri(_baseUrl),
+                Timeout = TimeSpan.FromSeconds(6)
             };
         }
 
@@ -30,14 +31,18 @@ namespace eHub.Common.Api
             {
                 var uri = new Uri(_client.BaseAddress, route);
                 var request = new HttpRequestMessage(HttpMethod.Get, uri);
-                _client.Timeout = TimeSpan.FromSeconds(5);
                 var response = await _client.SendAsync(request);
                 return await HandleResponse<T>(response);
             }
-            catch (Exception)
+            catch (HttpRequestException re)
             {
-                Console.WriteLine($"\n\t--->Error in Get<T>({route})");
-                return default(T);
+                Console.WriteLine($"{re.Message}");
+                throw re;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"\n\t--->Error in Get<T>({route}) - {e.Message}");
+                throw e;
             }
         }
 

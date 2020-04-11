@@ -24,7 +24,14 @@ namespace eHub.Common.Services
 
         public async Task<PiPin> GetPinStatus(int pin)
         {
-            return await _api.GetStatus(pin);
+            try
+            {
+                return await _api.GetStatus(pin);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public async Task<PoolSchedule> GetSchedule()
