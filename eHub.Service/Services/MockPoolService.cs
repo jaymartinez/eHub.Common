@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
 using eHub.Common.Models;
 
 namespace eHub.Common.Services
@@ -12,6 +10,7 @@ namespace eHub.Common.Services
     {
         PoolSchedule _schedule = new PoolSchedule();
         int _masterSwitchStatus = 0;
+        int _includeBoosterStatus = 0;
         Dictionary<int, PiPin> _pins;
 
         public MockPoolService()
@@ -53,13 +52,14 @@ namespace eHub.Common.Services
             return Task.FromResult(true);
         }
 
-        public Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive)
+        public Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive, bool includeBooster)
         {
             _schedule.StartHour = startTime.Hour;
             _schedule.StartMinute = startTime.Minute;
             _schedule.EndHour = endTime.Hour;
             _schedule.EndMinute = endTime.Minute;
             _schedule.IsActive = isActive;
+            _schedule.IncludeBooster = includeBooster;
 
             return Task.FromResult(_schedule);
         }
@@ -73,6 +73,12 @@ namespace eHub.Common.Services
                 _pins[pin].DateActivated = DateTime.Now;
             }
             return Task.FromResult(_pins[pin]);
+        }
+
+        public Task<int> ToggleIncludeBoosterSwitch()
+        {
+            _includeBoosterStatus = _includeBoosterStatus == 1 ? 0 : 1;
+            return Task.FromResult(_includeBoosterStatus);
         }
 
         public Task<int> ToggleMasterSwitch()

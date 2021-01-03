@@ -43,13 +43,13 @@ namespace eHub.Common.Services
             return await _api.Ping();
         }
 
-        public async Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive)
+        public async Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive, bool includeBooster)
         {
             try
             {
                 string startDateStr = startTime.ToString(@"MM\/dd\/yyyy HH:mm");
                 string endDateStr = endTime.ToString(@"MM\/dd\/yyyy HH:mm");
-                return await _api.SetSchedule(startDateStr, endDateStr, isActive);
+                return await _api.SetSchedule(startDateStr, endDateStr, isActive, includeBooster);
             }
             catch (Exception e)
             {
@@ -65,6 +65,11 @@ namespace eHub.Common.Services
         public async Task<int> ToggleMasterSwitch()
         {
             return await _api.ToggleMasterSwitch();
+        }
+
+        public async Task<int> ToggleIncludeBoosterSwitch()
+        {
+            return await _api.ToggleIncludeBoosterSwitch();
         }
     }
 }

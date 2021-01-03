@@ -32,7 +32,7 @@ namespace eHub.Common.Services
         /// <param name="startTime">When to start the pump.</param>
         /// <param name="endTime">When to stop the pump.</param>
         /// <returns>The schedule that was just saved.</returns>
-        Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive);
+        Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive, bool includeBooster);
 
         Task<PoolSchedule> GetSchedule();
 
@@ -44,6 +44,7 @@ namespace eHub.Common.Services
         /// <returns></returns>
         Task<int> ToggleMasterSwitch();
 
+        Task<int> ToggleIncludeBoosterSwitch();
         Task<int> GetMasterSwitchStatus();
     }
 }
