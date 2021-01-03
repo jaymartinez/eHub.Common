@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using eHub.Common.Models;
@@ -10,17 +11,17 @@ namespace eHub.Common.Api
 {
     public class WebInterface : IWebInterface
     {
-        readonly string _baseUrl;
 
         readonly HttpClient _client;
 
         public WebInterface(Configuration config)
         {
-            _baseUrl = $"{config.Environment.ApiBaseRoute}:{config.Environment.Port}/";
+            var baseUrl = $"{config.Environment.ApiBaseRoute}:{config.Environment.Port}/";
 
             _client = new HttpClient()
             {
-                BaseAddress = new Uri(_baseUrl)
+                BaseAddress = new Uri(baseUrl),
+                Timeout = TimeSpan.FromSeconds(5)
             };
         }
 
@@ -30,13 +31,12 @@ namespace eHub.Common.Api
             {
                 var uri = new Uri(_client.BaseAddress, route);
                 var request = new HttpRequestMessage(HttpMethod.Get, uri);
-                _client.Timeout = TimeSpan.FromSeconds(5);
                 var response = await _client.SendAsync(request);
                 return await HandleResponse<T>(response);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine($"\n\t--->Error in Get<T>({route})");
+                Console.WriteLine($"\n\t--->Error in Get<T>({route}) - ERROR MSG: {e.Message}");
                 return default(T);
             }
         }

@@ -15,7 +15,7 @@ namespace eHub.Common.Models
 
         /// <summary>
         /// The GPIO pin number
-        /// </summary>C:\dev\eHub.Common\eHub.Service\Models\PiPin.cs
+        /// </summary>
         [DataMember]
         public int PinNumber { get; set; }
 
@@ -31,6 +31,33 @@ namespace eHub.Common.Models
             get
             {
                 return State == PinState.ON ? "On" : "Off";
+            }
+        }
+
+        [IgnoreDataMember]
+        public string Name
+        {
+            get
+            {
+                switch (PinNumber)
+                {
+                    case Pin.PoolPump:
+                        return "Pool Pump";
+                    case Pin.SpaPump:
+                        return "Spa Pump";
+                    case Pin.Heater:
+                        return "Heater";
+                    case Pin.BoosterPump:
+                        return "Booster Pump";
+                    case Pin.PoolLight:
+                        return "Pool Light";
+                    case Pin.SpaLight:
+                        return "Spa Light";
+                    case Pin.GroundLights:
+                        return "Ground Lights";
+                    default:
+                        return "Unknown";
+                }
             }
         }
     }
