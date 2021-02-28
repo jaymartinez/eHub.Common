@@ -6,6 +6,8 @@ namespace eHub.Common.Models
 {
     public class Configuration
     {
+        public string AppVersionName { get; set; }
+        public long AppVersionCode { get; set; }
         public EnvironmentInfo Environment { get; }
 
         [JsonConstructor]
