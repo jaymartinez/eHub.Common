@@ -1,6 +1,7 @@
 ﻿using eHub.Common.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace eHub.Common.Api
@@ -16,5 +17,7 @@ namespace eHub.Common.Api
         Task<int> ToggleMasterSwitch();
         Task<int> ToggleIncludeBoosterSwitch();
         Task<int> GetMasterSwitchStatus();
+        Task<PoolLightMode> SavePoolLightMode(PoolLightMode mode);
+        Task<PoolLightMode> GetCurrentPoolLightMode();
     }
 }
