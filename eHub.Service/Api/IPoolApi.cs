@@ -18,6 +18,6 @@ namespace eHub.Common.Api
         Task<int> ToggleIncludeBoosterSwitch();
         Task<int> GetMasterSwitchStatus();
         Task<PoolLightMode> SavePoolLightMode(PoolLightMode mode);
-        Task<PoolLightMode> GetCurrentPoolLightMode();
+        Task<PoolLightServerModel> GetCurrentPoolLightMode();
     }
 }

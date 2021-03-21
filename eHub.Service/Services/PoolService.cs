@@ -73,7 +73,7 @@ namespace eHub.Common.Services
             return await _api.ToggleIncludeBoosterSwitch();
         }
 
-        public async Task<PoolLightMode> GetCurrentPoolLightMode()
+        public async Task<PoolLightServerModel> GetCurrentPoolLightMode()
         {
             return await _api.GetCurrentPoolLightMode();
         }

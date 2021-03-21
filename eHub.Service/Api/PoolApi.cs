@@ -188,16 +188,20 @@ namespace eHub.Common.Api
             }
         }
 
-        public async Task<PoolLightMode> GetCurrentPoolLightMode()
+        public async Task<PoolLightServerModel> GetCurrentPoolLightMode()
         {
             try
             {
-                var result = await _webApi.Get<Response<PoolLightMode>>("getPoolLightMode");
+                var result = await _webApi.Get<Response<PoolLightServerModel>>("getPoolLightMode");
                 return result.Data;
             }
             catch (Exception)
             {
-                return PoolLightMode.NotSet;
+                return new PoolLightServerModel
+                {
+                    CurrentMode = (int)PoolLightMode.NotSet,
+                    PreviousMode = (int)PoolLightMode.NotSet
+                };
             }
         }
     }

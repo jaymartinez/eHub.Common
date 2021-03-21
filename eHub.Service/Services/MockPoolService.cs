@@ -32,9 +32,9 @@ namespace eHub.Common.Services
             return Task.FromResult(Enumerable.Empty<PiPin>());
         }
 
-        public Task<PoolLightMode> GetCurrentPoolLightMode()
+        public Task<PoolLightServerModel> GetCurrentPoolLightMode()
         {
-            return Task.FromResult(PoolLightMode.NotSet);
+            return Task.FromResult(new PoolLightServerModel());
         }
 
         public Task<int> GetMasterSwitchStatus()
