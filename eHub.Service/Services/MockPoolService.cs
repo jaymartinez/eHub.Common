@@ -32,6 +32,11 @@ namespace eHub.Common.Services
             return Task.FromResult(Enumerable.Empty<PiPin>());
         }
 
+        public Task<PoolLightMode> GetCurrentPoolLightMode()
+        {
+            return Task.FromResult(PoolLightMode.NotSet);
+        }
+
         public Task<int> GetMasterSwitchStatus()
         {
             return Task.FromResult(_masterSwitchStatus);
@@ -50,6 +55,11 @@ namespace eHub.Common.Services
         public Task<bool> Ping()
         {
             return Task.FromResult(true);
+        }
+
+        public Task<PoolLightMode> SavePoolLightMode(PoolLightMode mode)
+        {
+            return Task.FromResult(PoolLightMode.NotSet);
         }
 
         public Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive, bool includeBooster)

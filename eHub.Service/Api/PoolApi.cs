@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using eHub.Common.Models;
 
@@ -69,7 +70,7 @@ namespace eHub.Common.Api
             try
             {
                 var result = await _webApi.Get<Response<IEnumerable<string>>>("ping");
-                if(result?.Messages?.Count() == 1 && result.Messages.ElementAt(0).ToLower().Equals("ok"))
+                if (result?.Messages?.Count() == 1 && result.Messages.ElementAt(0).ToLower().Equals("ok"))
                 {
                     return true;
                 }
@@ -171,6 +172,32 @@ namespace eHub.Common.Api
             catch (Exception)
             {
                 return -1;
+            }
+        }
+
+        public async Task<PoolLightMode> SavePoolLightMode(PoolLightMode mode)
+        {
+            try
+            {
+                var result = await _webApi.Get<Response<PoolLightMode>>($"savePoolLightMode?mode={(int)mode}");
+                return result.Data;
+            }
+            catch (Exception)
+            {
+                return PoolLightMode.NotSet;
+            }
+        }
+
+        public async Task<PoolLightMode> GetCurrentPoolLightMode()
+        {
+            try
+            {
+                var result = await _webApi.Get<Response<PoolLightMode>>("getPoolLightMode");
+                return result.Data;
+            }
+            catch (Exception)
+            {
+                return PoolLightMode.NotSet;
             }
         }
     }

@@ -3,6 +3,7 @@ using eHub.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace eHub.Common.Services
@@ -70,6 +71,16 @@ namespace eHub.Common.Services
         public async Task<int> ToggleIncludeBoosterSwitch()
         {
             return await _api.ToggleIncludeBoosterSwitch();
+        }
+
+        public async Task<PoolLightMode> GetCurrentPoolLightMode()
+        {
+            return await _api.GetCurrentPoolLightMode();
+        }
+
+        public async Task<PoolLightMode> SavePoolLightMode(PoolLightMode mode)
+        {
+            return await _api.SavePoolLightMode(mode);
         }
     }
 }
