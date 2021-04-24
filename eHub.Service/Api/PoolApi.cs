@@ -65,6 +65,74 @@ namespace eHub.Common.Api
             return result?.Data ?? default(PoolSchedule);
         }
 
+        public async Task<EquipmentSchedule> GetPoolLightSchedule() 
+        {
+            try
+            {
+                var result = await _webApi.Get<Response<EquipmentSchedule>>("getPoolLightSchedule");
+                return result?.Data ?? default(EquipmentSchedule);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public async Task<EquipmentSchedule> SetPoolLightSchedule(string startTimeStr, string endTimeStr)
+        {
+            var result = await _webApi.Get<Response<EquipmentSchedule>>(
+                $"setPoolLightSchedule?startDate={startTimeStr}&endDate={endTimeStr}");
+
+            if (result.Messages?.Count > 0)
+            {
+                Console.WriteLine(">>> Handling Messages from Response.");
+                HandleMessages(result.Messages);
+            }
+
+            return result?.Data ?? default(EquipmentSchedule);
+        }
+
+        public async Task<EquipmentSchedule> GetGroundLightSchedule()
+        {
+            try
+            {
+                var result = await _webApi.Get<Response<PoolSchedule>>("getGroundLightSchedule");
+                return result?.Data ?? default(PoolSchedule);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public async Task<EquipmentSchedule> SetGroundLightSchedule(string startTimeStr, string endTimeStr)
+        {
+            var result = await _webApi.Get<Response<EquipmentSchedule>>(
+                $"setGroundLightSchedule?startDate={startTimeStr}&endDate={endTimeStr}");
+
+            if (result.Messages?.Count > 0)
+            {
+                Console.WriteLine(">>> Handling Messages from Response.");
+                HandleMessages(result.Messages);
+            }
+
+            return result?.Data ?? default(EquipmentSchedule);
+        }
+
+
+        public async Task<PoolSchedule> GetSchedule()
+        {
+            try
+            {
+                var result = await _webApi.Get<Response<PoolSchedule>>("getSchedule");
+                return result?.Data ?? default(PoolSchedule);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public async Task<bool> Ping()
         {
             try
@@ -80,19 +148,6 @@ namespace eHub.Common.Api
             catch (Exception)
             {
                 return false;
-            }
-        }
-
-        public async Task<PoolSchedule> GetSchedule()
-        {
-            try
-            {
-                var result = await _webApi.Get<Response<PoolSchedule>>("getSchedule");
-                return result?.Data ?? default(PoolSchedule);
-            }
-            catch (Exception)
-            {
-                return null;
             }
         }
 

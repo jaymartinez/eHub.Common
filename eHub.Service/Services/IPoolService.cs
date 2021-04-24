@@ -26,6 +26,12 @@ namespace eHub.Common.Services
         Task<bool> Ping();
 
         /// <summary>
+        /// Gets the pool timer schedule
+        /// </summary>
+        /// <returns></returns>
+        Task<PoolSchedule> GetSchedule();
+
+        /// <summary>
         /// Sets the main pool schedule.
         /// Ideally we could have a schedule for each piece of equipment.
         /// </summary>
@@ -34,7 +40,28 @@ namespace eHub.Common.Services
         /// <returns>The schedule that was just saved.</returns>
         Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive, bool includeBooster);
 
-        Task<PoolSchedule> GetSchedule();
+        /// <summary>
+        /// Gets the pool light schedule
+        /// </summary>
+        Task<EquipmentSchedule> GetPoolLightSchedule();
+
+        /// <summary>
+        /// Sets the pool light schedule
+        /// </summary>
+        /// <returns>The schedule that was just saved.</returns>
+        Task<EquipmentSchedule> SetPoolLightSchedule(DateTime startTime, DateTime endTime);
+
+
+        /// <summary>
+        /// Gets the ground lights schedule
+        /// </summary>
+        Task<EquipmentSchedule> GetGroundLightSchedule();
+
+        /// <summary>
+        /// Sets the ground lights schedule
+        /// </summary>
+        /// <returns>The schedule that was just saved.</returns>
+        Task<EquipmentSchedule> SetGroundLightSchedule(DateTime startTime, DateTime endTime);
 
         Task<PiPin> Toggle(int pin);
 

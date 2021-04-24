@@ -9,6 +9,7 @@ namespace eHub.Common.Services
     public class MockPoolService : IPoolService
     {
         PoolSchedule _schedule = new PoolSchedule();
+        EquipmentSchedule _equipmentSchedule = new EquipmentSchedule();
         int _masterSwitchStatus = 0;
         int _includeBoosterStatus = 0;
         Dictionary<int, PiPin> _pins;
@@ -37,6 +38,11 @@ namespace eHub.Common.Services
             return Task.FromResult(new PoolLightServerModel());
         }
 
+        public Task<EquipmentSchedule> GetGroundLightSchedule()
+        {
+            return Task.FromResult(_equipmentSchedule);
+        }
+
         public Task<int> GetMasterSwitchStatus()
         {
             return Task.FromResult(_masterSwitchStatus);
@@ -45,6 +51,11 @@ namespace eHub.Common.Services
         public Task<PiPin> GetPinStatus(int pin)
         {
             return Task.FromResult(_pins[pin]);
+        }
+
+        public Task<EquipmentSchedule> GetPoolLightSchedule()
+        {
+            return Task.FromResult(_equipmentSchedule);
         }
 
         public Task<PoolSchedule> GetSchedule()
@@ -60,6 +71,22 @@ namespace eHub.Common.Services
         public Task<PoolLightMode> SavePoolLightMode(PoolLightMode mode)
         {
             return Task.FromResult(PoolLightMode.NotSet);
+        }
+
+        public Task<EquipmentSchedule> SetGroundLightSchedule(DateTime startTime, DateTime endTime)
+        {
+            return Task.FromResult(_equipmentSchedule);
+        }
+
+        public Task<EquipmentSchedule> SetPoolLightSchedule(DateTime startTime, DateTime endTime)
+        {
+            var sched = new EquipmentSchedule();
+            sched.StartHour = startTime.Hour;
+            sched.StartMinute = startTime.Minute;
+            sched.EndHour = endTime.Hour;
+            sched.EndMinute = endTime.Minute;
+
+            return Task.FromResult(sched);
         }
 
         public Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive, bool includeBooster)

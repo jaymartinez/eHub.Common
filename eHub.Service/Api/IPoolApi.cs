@@ -10,6 +10,10 @@ namespace eHub.Common.Api
     {
         Task<PoolSchedule> GetSchedule();
         Task<PoolSchedule> SetSchedule(string startTimeStr, string endTimeStr, bool isActive, bool includeBooster);
+        Task<EquipmentSchedule> GetPoolLightSchedule();
+        Task<EquipmentSchedule> SetPoolLightSchedule(string startTimeStr, string endTimeStr);
+        Task<EquipmentSchedule> GetGroundLightSchedule();
+        Task<EquipmentSchedule> SetGroundLightSchedule(string startTimeStr, string endTimeStr);
         Task<IEnumerable<PiPin>> GetAllStatuses();
         Task<PiPin> GetStatus(int pin);
         Task<bool> Ping();

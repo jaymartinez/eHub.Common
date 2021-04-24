@@ -36,10 +36,11 @@ namespace eHub.Common.Helpers
                 Error = delegate (object sender, ErrorEventArgs args)
                 {
                     args.ErrorContext.Handled = true;
-                    Console.WriteLine($"\n\tError in JsonToObject, json=[{json}]");
+                    Console.WriteLine($"\n\tError in JsonToObject<T>(json), json=[{json}]");
                 },
 
                 DateFormatString = DateFormat,
+                NullValueHandling = NullValueHandling.Ignore,
                 Converters = new JsonConverter[] 
                 {
                     new StringEnumConverter()

@@ -39,11 +39,6 @@ namespace eHub.Common.Services
             return await _api.GetMasterSwitchStatus();
         }
 
-        public async Task<bool> Ping()
-        {
-            return await _api.Ping();
-        }
-
         public async Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive, bool includeBooster)
         {
             try
@@ -51,6 +46,46 @@ namespace eHub.Common.Services
                 string startDateStr = startTime.ToString(@"MM\/dd\/yyyy HH:mm");
                 string endDateStr = endTime.ToString(@"MM\/dd\/yyyy HH:mm");
                 return await _api.SetSchedule(startDateStr, endDateStr, isActive, includeBooster);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<EquipmentSchedule> GetGroundLightSchedule()
+        {
+            var result = await _api.GetGroundLightSchedule();
+            return result;
+        }
+
+        public async Task<EquipmentSchedule> SetGroundLightSchedule(DateTime startTime, DateTime endTime)
+        {
+            try
+            {
+                string startDateStr = startTime.ToString(@"MM\/dd\/yyyy HH:mm");
+                string endDateStr = endTime.ToString(@"MM\/dd\/yyyy HH:mm");
+                return await _api.SetGroundLightSchedule(startDateStr, endDateStr);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<EquipmentSchedule> GetPoolLightSchedule()
+        {
+            var result = await _api.GetPoolLightSchedule();
+            return result;
+        }
+
+        public async Task<EquipmentSchedule> SetPoolLightSchedule(DateTime startTime, DateTime endTime)
+        {
+            try
+            {
+                string startDateStr = startTime.ToString(@"MM\/dd\/yyyy HH:mm");
+                string endDateStr = endTime.ToString(@"MM\/dd\/yyyy HH:mm");
+                return await _api.SetPoolLightSchedule(startDateStr, endDateStr);
             }
             catch (Exception e)
             {
@@ -81,6 +116,11 @@ namespace eHub.Common.Services
         public async Task<PoolLightMode> SavePoolLightMode(PoolLightMode mode)
         {
             return await _api.SavePoolLightMode(mode);
+        }
+
+        public async Task<bool> Ping() 
+        { 
+            return await _api.Ping(); 
         }
     }
 }
