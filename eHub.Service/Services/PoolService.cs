@@ -120,7 +120,7 @@ namespace eHub.Common.Services
             }
         }
 
-        public async Task<EquipmentSchedule> SetGroundLightSchedule(DateTime startTime, DateTime endTime)
+        public async Task<EquipmentSchedule> SetGroundLightSchedule(DateTime startTime, DateTime endTime, bool isActive)
         {
             try
             {
@@ -128,7 +128,7 @@ namespace eHub.Common.Services
                 string endDateStr = endTime.ToString(@"MM\/dd\/yyyy HH:mm");
 
                 var result = await _api.Get<Response<EquipmentSchedule>>(
-                    $"setGroundLightSchedule?startDate={startDateStr}&endDate={endDateStr}");
+                    $"setGroundLightSchedule?startDate={startDateStr}&endDate={endDateStr}&isActive={isActive}");
 
                 HandleMessages(result?.Messages ?? new List<string>());
                 return result?.Data ?? default;
@@ -153,7 +153,7 @@ namespace eHub.Common.Services
             }
         }
 
-        public async Task<EquipmentSchedule> SetPoolLightSchedule(DateTime startTime, DateTime endTime)
+        public async Task<EquipmentSchedule> SetPoolLightSchedule(DateTime startTime, DateTime endTime, bool isActive)
         {
             try
             {
@@ -161,7 +161,44 @@ namespace eHub.Common.Services
                 string endDateStr = endTime.ToString(@"MM\/dd\/yyyy HH:mm");
 
                 var result = await _api.Get<Response<EquipmentSchedule>>(
-                $"setPoolLightSchedule?startDate={startDateStr}&endDate={endDateStr}");
+                $"setPoolLightSchedule?startDate={startDateStr}&endDate={endDateStr}&isActive={isActive}");
+
+                if (result.Messages?.Count > 0)
+                {
+                    HandleMessages(result.Messages);
+                }
+
+                return result?.Data ?? default;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<EquipmentSchedule> GetSpaLightSchedule()
+        {
+            try
+            {
+                var result = await _api.Get<Response<EquipmentSchedule>>("getSpaLightSchedule");
+                HandleMessages(result?.Messages ?? new List<string>());
+                return result?.Data ?? default;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<EquipmentSchedule> SetSpaLightSchedule(DateTime startTime, DateTime endTime, bool isActive)
+        {
+            try
+            {
+                string startDateStr = startTime.ToString(@"MM\/dd\/yyyy HH:mm");
+                string endDateStr = endTime.ToString(@"MM\/dd\/yyyy HH:mm");
+
+                var result = await _api.Get<Response<EquipmentSchedule>>(
+                $"setSpaLightSchedule?startDate={startDateStr}&endDate={endDateStr}&isActive={isActive}");
 
                 if (result.Messages?.Count > 0)
                 {

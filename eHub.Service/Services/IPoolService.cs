@@ -49,7 +49,7 @@ namespace eHub.Common.Services
         /// Sets the pool light schedule
         /// </summary>
         /// <returns>The schedule that was just saved.</returns>
-        Task<EquipmentSchedule> SetPoolLightSchedule(DateTime startTime, DateTime endTime);
+        Task<EquipmentSchedule> SetPoolLightSchedule(DateTime startTime, DateTime endTime, bool isActive);
 
 
         /// <summary>
@@ -61,7 +61,10 @@ namespace eHub.Common.Services
         /// Sets the ground lights schedule
         /// </summary>
         /// <returns>The schedule that was just saved.</returns>
-        Task<EquipmentSchedule> SetGroundLightSchedule(DateTime startTime, DateTime endTime);
+        Task<EquipmentSchedule> SetGroundLightSchedule(DateTime startTime, DateTime endTime, bool isActive);
+
+        Task<EquipmentSchedule> GetSpaLightSchedule();
+        Task<EquipmentSchedule> SetSpaLightSchedule(DateTime startTime, DateTime endTime, bool isActive);
 
         Task<PiPin> Toggle(int pin);
 
