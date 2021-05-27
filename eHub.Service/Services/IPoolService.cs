@@ -78,5 +78,7 @@ namespace eHub.Common.Services
         Task<int> GetMasterSwitchStatus();
         Task<PoolLightServerModel> GetCurrentPoolLightMode();
         Task<PoolLightMode> SavePoolLightMode(PoolLightMode mode);
+        Task<PoolLightServerModel> GetCurrentSpaLightMode();
+        Task<PoolLightMode> SaveSpaLightMode(PoolLightMode mode);
     }
 }

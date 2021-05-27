@@ -315,6 +315,40 @@ namespace eHub.Common.Services
             }
         }
 
+        public async Task<PoolLightServerModel> GetCurrentSpaLightMode()
+        {
+            try
+            {
+                var defaultModel = new PoolLightServerModel
+                {
+                    CurrentMode = (int)PoolLightMode.NotSet,
+                    PreviousMode = (int)PoolLightMode.NotSet
+                };
+
+                var result = await _api.Get<Response<PoolLightServerModel>>("getSpaLightMode");
+                HandleMessages(result?.Messages ?? new List<string>());
+                return result?.Data ?? defaultModel;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<PoolLightMode> SaveSpaLightMode(PoolLightMode mode)
+        {
+            try
+            {
+                var result = await _api.Get<Response<PoolLightMode>>($"saveSpaLightMode?mode={(int)mode}");
+                HandleMessages(result?.Messages ?? new List<string>());
+                return result?.Data ?? PoolLightMode.NotSet;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public async Task<bool> Ping() 
         {
             try

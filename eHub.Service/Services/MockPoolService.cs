@@ -38,6 +38,11 @@ namespace eHub.Common.Services
             return Task.FromResult(new PoolLightServerModel());
         }
 
+        public Task<PoolLightServerModel> GetCurrentSpaLightMode()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<EquipmentSchedule> GetGroundLightSchedule()
         {
             return Task.FromResult(_equipmentSchedule);
@@ -63,6 +68,11 @@ namespace eHub.Common.Services
             return Task.FromResult(_schedule);
         }
 
+        public Task<EquipmentSchedule> GetSpaLightSchedule()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<bool> Ping()
         {
             return Task.FromResult(true);
@@ -73,12 +83,17 @@ namespace eHub.Common.Services
             return Task.FromResult(PoolLightMode.NotSet);
         }
 
-        public Task<EquipmentSchedule> SetGroundLightSchedule(DateTime startTime, DateTime endTime)
+        public Task<PoolLightMode> SaveSpaLightMode(PoolLightMode mode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<EquipmentSchedule> SetGroundLightSchedule(DateTime startTime, DateTime endTime, bool isActive)
         {
             return Task.FromResult(_equipmentSchedule);
         }
 
-        public Task<EquipmentSchedule> SetPoolLightSchedule(DateTime startTime, DateTime endTime)
+        public Task<EquipmentSchedule> SetPoolLightSchedule(DateTime startTime, DateTime endTime, bool isActive)
         {
             var sched = new EquipmentSchedule();
             sched.StartHour = startTime.Hour;
@@ -99,6 +114,11 @@ namespace eHub.Common.Services
             _schedule.IncludeBooster = includeBooster;
 
             return Task.FromResult(_schedule);
+        }
+
+        public Task<EquipmentSchedule> SetSpaLightSchedule(DateTime startTime, DateTime endTime, bool isActive)
+        {
+            return Task.FromResult(new EquipmentSchedule());
         }
 
         public Task<PiPin> Toggle(int pin)
