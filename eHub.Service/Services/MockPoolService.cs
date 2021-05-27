@@ -9,13 +9,21 @@ namespace eHub.Common.Services
     public class MockPoolService : IPoolService
     {
         PoolSchedule _schedule = new PoolSchedule();
-        EquipmentSchedule _equipmentSchedule = new EquipmentSchedule();
+        EquipmentSchedule _poolLightSchedule = new EquipmentSchedule();
+        EquipmentSchedule _spaLightSchedule = new EquipmentSchedule();
+        EquipmentSchedule _groundLightSchedule = new EquipmentSchedule();
+        PoolLightMode _poolLightMode, _spaLightMode, _previousPoolLightMode, _previousSpaLightMode;
         int _masterSwitchStatus = 0;
         int _includeBoosterStatus = 0;
         Dictionary<int, PiPin> _pins;
 
         public MockPoolService()
         {
+            _poolLightMode = PoolLightMode.NotSet;
+            _spaLightMode = PoolLightMode.NotSet;
+            _previousPoolLightMode = PoolLightMode.NotSet;
+            _previousSpaLightMode = PoolLightMode.NotSet;
+
             _pins = new Dictionary<int, PiPin>
             {
                 [5] = new PiPin { PinNumber = 5, State = 0 },
@@ -30,22 +38,32 @@ namespace eHub.Common.Services
 
         public Task<IEnumerable<PiPin>> GetAllStatuses()
         {
-            return Task.FromResult(Enumerable.Empty<PiPin>());
+            return Task.FromResult(_pins.Select(_ => _.Value));
         }
 
         public Task<PoolLightServerModel> GetCurrentPoolLightMode()
         {
-            return Task.FromResult(new PoolLightServerModel());
+            var model = new PoolLightServerModel()
+            {
+                CurrentMode = (int)_poolLightMode,
+                PreviousMode = (int)_previousPoolLightMode
+            };
+            return Task.FromResult(model);
         }
 
         public Task<PoolLightServerModel> GetCurrentSpaLightMode()
         {
-            throw new NotImplementedException();
+            var model = new PoolLightServerModel()
+            {
+                CurrentMode = (int)_spaLightMode,
+                PreviousMode = (int)_previousSpaLightMode
+            };
+            return Task.FromResult(model);
         }
 
         public Task<EquipmentSchedule> GetGroundLightSchedule()
         {
-            return Task.FromResult(_equipmentSchedule);
+            return Task.FromResult(_groundLightSchedule);
         }
 
         public Task<int> GetMasterSwitchStatus()
@@ -60,7 +78,7 @@ namespace eHub.Common.Services
 
         public Task<EquipmentSchedule> GetPoolLightSchedule()
         {
-            return Task.FromResult(_equipmentSchedule);
+            return Task.FromResult(_poolLightSchedule);
         }
 
         public Task<PoolSchedule> GetSchedule()
@@ -70,7 +88,7 @@ namespace eHub.Common.Services
 
         public Task<EquipmentSchedule> GetSpaLightSchedule()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(_spaLightSchedule);
         }
 
         public Task<bool> Ping()
@@ -80,28 +98,36 @@ namespace eHub.Common.Services
 
         public Task<PoolLightMode> SavePoolLightMode(PoolLightMode mode)
         {
-            return Task.FromResult(PoolLightMode.NotSet);
+            _poolLightMode = mode;
+            return Task.FromResult(mode);
         }
 
         public Task<PoolLightMode> SaveSpaLightMode(PoolLightMode mode)
         {
-            throw new NotImplementedException();
+            _spaLightMode = mode;
+            return Task.FromResult(mode);
         }
 
         public Task<EquipmentSchedule> SetGroundLightSchedule(DateTime startTime, DateTime endTime, bool isActive)
         {
-            return Task.FromResult(_equipmentSchedule);
+            _groundLightSchedule = new EquipmentSchedule();
+            _groundLightSchedule.StartHour = startTime.Hour;
+            _groundLightSchedule.StartMinute = startTime.Minute;
+            _groundLightSchedule.EndHour = endTime.Hour;
+            _groundLightSchedule.EndMinute = endTime.Minute;
+
+            return Task.FromResult(_groundLightSchedule);
         }
 
         public Task<EquipmentSchedule> SetPoolLightSchedule(DateTime startTime, DateTime endTime, bool isActive)
         {
-            var sched = new EquipmentSchedule();
-            sched.StartHour = startTime.Hour;
-            sched.StartMinute = startTime.Minute;
-            sched.EndHour = endTime.Hour;
-            sched.EndMinute = endTime.Minute;
+            _poolLightSchedule = new EquipmentSchedule();
+            _poolLightSchedule.StartHour = startTime.Hour;
+            _poolLightSchedule.StartMinute = startTime.Minute;
+            _poolLightSchedule.EndHour = endTime.Hour;
+            _poolLightSchedule.EndMinute = endTime.Minute;
 
-            return Task.FromResult(sched);
+            return Task.FromResult(_poolLightSchedule);
         }
 
         public Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive, bool includeBooster)
@@ -118,7 +144,13 @@ namespace eHub.Common.Services
 
         public Task<EquipmentSchedule> SetSpaLightSchedule(DateTime startTime, DateTime endTime, bool isActive)
         {
-            return Task.FromResult(new EquipmentSchedule());
+            var sched = new EquipmentSchedule();
+            sched.StartHour = startTime.Hour;
+            sched.StartMinute = startTime.Minute;
+            sched.EndHour = endTime.Hour;
+            sched.EndMinute = endTime.Minute;
+
+            return Task.FromResult(sched);
         }
 
         public Task<PiPin> Toggle(int pin)

@@ -10,7 +10,7 @@ namespace eHub.Common.Helpers
             switch (mode)
             {
                 case PoolLightMode.Sam:
-                    return "SAm Mode";
+                    return "SAM Mode";
                 case PoolLightMode.Party:
                     return "Party Mode";
                 case PoolLightMode.Romance:

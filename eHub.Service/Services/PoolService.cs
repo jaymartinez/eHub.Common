@@ -17,7 +17,6 @@ namespace eHub.Common.Services
             _api = api;
         }
 
-
         public override void HandleMessages(List<string> messages)
         {
             //TODO - do something better than just write to console
