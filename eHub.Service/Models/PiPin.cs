@@ -42,14 +42,17 @@ namespace eHub.Common.Models
             {
                 switch (PinNumber)
                 {
-                    case Pin.PoolPump:
+                    case Pin.PoolPump_1:
+                    case Pin.PoolPump_2:
                         return "Pool Pump";
-                    case Pin.SpaPump:
+                    case Pin.SpaPump_1:
+                    case Pin.SpaPump_2:
                         return "Spa Pump";
+                    case Pin.BoosterPump_1:
+                    case Pin.BoosterPump_2:
+                        return "Booster Pump";
                     case Pin.Heater:
                         return "Heater";
-                    case Pin.BoosterPump:
-                        return "Booster Pump";
                     case Pin.PoolLight:
                         return "Pool Light";
                     case Pin.SpaLight:

@@ -28,7 +28,10 @@ namespace eHub.Common.Services
             {
                 [5] = new PiPin { PinNumber = 5, State = 0 },
                 [6] = new PiPin { PinNumber = 6, State = 0 },
+                [12] = new PiPin { PinNumber = 12, State = 0 },
                 [13] = new PiPin { PinNumber = 13, State = 0 },
+                [23] = new PiPin { PinNumber = 23, State = 0 },
+                [24] = new PiPin { PinNumber = 24, State = 0 },
                 [17] = new PiPin { PinNumber = 17, State = 0 },
                 [19] = new PiPin { PinNumber = 19, State = 0 },
                 [20] = new PiPin { PinNumber = 20, State = 0 },
@@ -89,6 +92,11 @@ namespace eHub.Common.Services
         public Task<EquipmentSchedule> GetSpaLightSchedule()
         {
             return Task.FromResult(_spaLightSchedule);
+        }
+
+        public Task<WaterTemp> GetWaterTemp()
+        {
+            return Task.FromResult(new WaterTemp { ValueC = 28.5, ValueF = 83.3 });
         }
 
         public Task<bool> Ping()

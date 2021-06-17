@@ -80,5 +80,6 @@ namespace eHub.Common.Services
         Task<PoolLightMode> SavePoolLightMode(PoolLightMode mode);
         Task<PoolLightServerModel> GetCurrentSpaLightMode();
         Task<PoolLightMode> SaveSpaLightMode(PoolLightMode mode);
+        Task<WaterTemp> GetWaterTemp();
     }
 }

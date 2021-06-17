@@ -219,7 +219,8 @@ namespace eHub.Common.Services
                 var url = string.Empty;
                 switch (pin)
                 {
-                    case Pin.PoolPump:
+                    case Pin.PoolPump_1:
+                    case Pin.PoolPump_2:
                         url = "poolPump";
                         break;
                     case Pin.Heater:
@@ -228,10 +229,12 @@ namespace eHub.Common.Services
                     case Pin.SpaLight:
                         url = "spaLight";
                         break;
-                    case Pin.SpaPump:
+                    case Pin.SpaPump_1:
+                    case Pin.SpaPump_2:
                         url = "spaPump";
                         break;
-                    case Pin.BoosterPump:
+                    case Pin.BoosterPump_1:
+                    case Pin.BoosterPump_2:
                         url = "boosterPump";
                         break;
                     case Pin.PoolLight:
@@ -363,6 +366,20 @@ namespace eHub.Common.Services
             catch (Exception)
             {
                 return false;
+            }
+        }
+
+        public async Task<WaterTemp> GetWaterTemp()
+        {
+            try
+            {
+                var result = await _api.GetWaterTemp("watertemp");
+                HandleMessages(result?.Messages ?? new List<string>());
+                return result?.Data ?? new WaterTemp() { ValueF = 0, ValueC = 0 };
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
     }

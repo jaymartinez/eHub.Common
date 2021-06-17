@@ -61,6 +61,34 @@ namespace eHub.Common.Api
             }
         }
 
+        public async Task<Response<WaterTemp>> GetWaterTemp(string route)
+        {
+            var url = "http://192.168.0.16";
+            var port = 5000;
+
+            try
+            {
+                var baseAddr = new Uri($"{url}:{port}/");
+                var uri = new Uri(baseAddr, route);
+                var request = new HttpRequestMessage(HttpMethod.Get, uri);
+                var response = await _client.SendAsync(request);
+                return await HandleResponse<Response<WaterTemp>>(response);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"\n\t--->Error in GetWaterTemp(route)...{e.Message}\n\t{e.StackTrace}");
+                return new Response<WaterTemp>()
+                {
+                    Data = new WaterTemp()
+                    {
+                        ValueF = 0,
+                        ValueC = 0
+                    }
+                };
+            }
+
+        }
+
         Task<T> IWebInterface.Post<T>(string route)
         {
             throw new NotImplementedException();
@@ -101,5 +129,6 @@ namespace eHub.Common.Api
         {
             _client?.Dispose();
         }
+
     }
 }

@@ -55,12 +55,22 @@ namespace eHub.Common.Tests
         {
             yield return new PiPin
             {
-                PinNumber = Pin.PoolPump,
+                PinNumber = Pin.PoolPump_1,
                 State = state  
             };
             yield return new PiPin
             {
-                PinNumber = Pin.BoosterPump,
+                PinNumber = Pin.PoolPump_2,
+                State = state  
+            };
+            yield return new PiPin
+            {
+                PinNumber = Pin.BoosterPump_1,
+                State = state
+            };
+            yield return new PiPin
+            {
+                PinNumber = Pin.BoosterPump_2,
                 State = state
             };
             yield return new PiPin
@@ -85,7 +95,12 @@ namespace eHub.Common.Tests
             };
             yield return new PiPin
             {
-                PinNumber = Pin.SpaPump,
+                PinNumber = Pin.SpaPump_1,
+                State = state
+            };
+            yield return new PiPin
+            {
+                PinNumber = Pin.SpaPump_2,
                 State = state
             };
         }
