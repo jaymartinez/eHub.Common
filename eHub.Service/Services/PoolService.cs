@@ -31,7 +31,11 @@ namespace eHub.Common.Services
         {
             try
             {
-                var result = await _api.Get<Response<IEnumerable<PiPin>>>("/allStatuses");
+                var result = await Task.Run(async () =>
+                {
+                    return await _api.Get<Response<IEnumerable<PiPin>>>("/allStatuses");
+                });
+
                 HandleMessages(result?.Messages ?? new List<string>());
                 return result?.Data ?? Enumerable.Empty<PiPin>();
             }
@@ -142,7 +146,10 @@ namespace eHub.Common.Services
         {
             try
             {
-                var result = await _api.Get<Response<EquipmentSchedule>>("getPoolLightSchedule");
+                var result = await Task.Run(async () =>
+                { 
+                    return await _api.Get<Response<EquipmentSchedule>>("getPoolLightSchedule");
+                });
                 HandleMessages(result?.Messages ?? new List<string>());
                 return result?.Data ?? default;
             }
@@ -179,7 +186,10 @@ namespace eHub.Common.Services
         {
             try
             {
-                var result = await _api.Get<Response<EquipmentSchedule>>("getSpaLightSchedule");
+                var result = await Task.Run(async () =>
+                { 
+                    return await _api.Get<Response<EquipmentSchedule>>("getSpaLightSchedule");
+                });
                 HandleMessages(result?.Messages ?? new List<string>());
                 return result?.Data ?? default;
             }
@@ -293,7 +303,10 @@ namespace eHub.Common.Services
                     PreviousMode = (int)PoolLightMode.NotSet
                 };
 
-                var result = await _api.Get<Response<PoolLightServerModel>>("getPoolLightMode");
+                var result = await Task.Run(async () =>
+                { 
+                    return await _api.Get<Response<PoolLightServerModel>>("getPoolLightMode");
+                });
                 HandleMessages(result?.Messages ?? new List<string>());
                 return result?.Data ?? defaultModel;
             }
@@ -327,7 +340,10 @@ namespace eHub.Common.Services
                     PreviousMode = (int)PoolLightMode.NotSet
                 };
 
-                var result = await _api.Get<Response<PoolLightServerModel>>("getSpaLightMode");
+                var result = await Task.Run(async () =>
+                { 
+                    return await _api.Get<Response<PoolLightServerModel>>("getSpaLightMode");
+                });
                 HandleMessages(result?.Messages ?? new List<string>());
                 return result?.Data ?? defaultModel;
             }
