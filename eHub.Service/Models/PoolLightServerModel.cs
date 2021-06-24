@@ -19,5 +19,14 @@ namespace eHub.Common.Models
 
         [IgnoreDataMember]
         public PoolLightMode PreviousPoolLightMode => (PoolLightMode)PreviousMode;
+
+        [IgnoreDataMember]
+        public LightType LightType { get; set; }
+    }
+
+    public enum LightType
+    {
+        Pool,
+        Spa
     }
 }
