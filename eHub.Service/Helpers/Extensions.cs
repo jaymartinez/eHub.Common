@@ -34,7 +34,7 @@ namespace eHub.Common.Helpers
                 case PoolLightMode.Magenta:
                     return "Magenta Fixed Mode";
                 case PoolLightMode.Hold:
-                    return "Save current color effect";
+                    return "Holding current color from light show";
                 case PoolLightMode.Recall:
                     return "Recall the last saved color effect";
                 default:
