@@ -76,6 +76,21 @@ namespace eHub.Common.Services
             }
         }
 
+        public async Task<PoolSchedule> GetBoosterSchedule()
+        {
+            try
+            {
+                var result = await _api.Get<Response<PoolSchedule>>("getBoosterSchedule");
+                HandleMessages(result?.Messages ?? new List<string>());
+                return result?.Data ?? default;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
         public async Task<int> GetMasterSwitchStatus()
         {
             try
@@ -99,6 +114,25 @@ namespace eHub.Common.Services
 
                 var result = await _api.Get<Response<PoolSchedule>>(
                     $"setSchedule?startDate={startDateStr}&endDate={endDateStr}&isActive={isActive}&includeBooster={includeBooster}");
+
+                HandleMessages(result?.Messages ?? new List<string>());
+                return result?.Data ?? default;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<PoolSchedule> SetBoosterSchedule(DateTime startTime, DateTime endTime, bool isActive)
+        {
+            try
+            {
+                string startDateStr = startTime.ToString(@"MM\/dd\/yyyy HH:mm");
+                string endDateStr = endTime.ToString(@"MM\/dd\/yyyy HH:mm");
+
+                var result = await _api.Get<Response<PoolSchedule>>(
+                    $"setBoosterSchedule?startDate={startDateStr}&endDate={endDateStr}&isActive={isActive}");
 
                 HandleMessages(result?.Messages ?? new List<string>());
                 return result?.Data ?? default;

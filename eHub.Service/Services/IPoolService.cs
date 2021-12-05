@@ -30,6 +30,7 @@ namespace eHub.Common.Services
         /// </summary>
         /// <returns></returns>
         Task<PoolSchedule> GetSchedule();
+        Task<PoolSchedule> GetBoosterSchedule();
 
         /// <summary>
         /// Sets the main pool schedule.
@@ -39,6 +40,7 @@ namespace eHub.Common.Services
         /// <param name="endTime">When to stop the pump.</param>
         /// <returns>The schedule that was just saved.</returns>
         Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive, bool includeBooster);
+        Task<PoolSchedule> SetBoosterSchedule(DateTime startTime, DateTime endTime, bool isActive);
 
         /// <summary>
         /// Gets the pool light schedule
