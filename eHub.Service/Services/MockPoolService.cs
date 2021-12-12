@@ -9,6 +9,7 @@ namespace eHub.Common.Services
     public class MockPoolService : IPoolService
     {
         PoolSchedule _schedule = new PoolSchedule();
+        EquipmentSchedule _boosterSchedule = new EquipmentSchedule();
         EquipmentSchedule _poolLightSchedule = new EquipmentSchedule();
         EquipmentSchedule _spaLightSchedule = new EquipmentSchedule();
         EquipmentSchedule _groundLightSchedule = new EquipmentSchedule();
@@ -42,6 +43,11 @@ namespace eHub.Common.Services
         public Task<IEnumerable<PiPin>> GetAllStatuses()
         {
             return Task.FromResult(_pins.Select(_ => _.Value));
+        }
+
+        public Task<EquipmentSchedule> GetBoosterSchedule()
+        {
+            return Task.FromResult(_boosterSchedule);
         }
 
         public Task<PoolLightServerModel> GetCurrentPoolLightMode()
@@ -114,6 +120,18 @@ namespace eHub.Common.Services
         {
             _spaLightMode = mode;
             return Task.FromResult(mode);
+        }
+
+        public Task<EquipmentSchedule> SetBoosterSchedule(DateTime startTime, DateTime endTime, bool isActive)
+        {
+            _boosterSchedule.StartHour = startTime.Hour;
+            _boosterSchedule.StartMinute = startTime.Minute;
+            _boosterSchedule.EndHour = endTime.Hour;
+            _boosterSchedule.EndMinute = endTime.Minute;
+            _boosterSchedule.IsActive = isActive;
+
+            return Task.FromResult(_boosterSchedule);
+
         }
 
         public Task<EquipmentSchedule> SetGroundLightSchedule(DateTime startTime, DateTime endTime, bool isActive)

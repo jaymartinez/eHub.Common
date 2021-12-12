@@ -76,7 +76,7 @@ namespace eHub.Common.Services
             }
         }
 
-        public async Task<PoolSchedule> GetBoosterSchedule()
+        public async Task<EquipmentSchedule> GetBoosterSchedule()
         {
             try
             {
@@ -124,14 +124,14 @@ namespace eHub.Common.Services
             }
         }
 
-        public async Task<PoolSchedule> SetBoosterSchedule(DateTime startTime, DateTime endTime, bool isActive)
+        public async Task<EquipmentSchedule> SetBoosterSchedule(DateTime startTime, DateTime endTime, bool isActive)
         {
             try
             {
                 string startDateStr = startTime.ToString(@"MM\/dd\/yyyy HH:mm");
                 string endDateStr = endTime.ToString(@"MM\/dd\/yyyy HH:mm");
 
-                var result = await _api.Get<Response<PoolSchedule>>(
+                var result = await _api.Get<Response<EquipmentSchedule>>(
                     $"setBoosterSchedule?startDate={startDateStr}&endDate={endDateStr}&isActive={isActive}");
 
                 HandleMessages(result?.Messages ?? new List<string>());
