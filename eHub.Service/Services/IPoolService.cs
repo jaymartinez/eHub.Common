@@ -79,9 +79,9 @@ namespace eHub.Common.Services
         Task<int> ToggleIncludeBoosterSwitch();
         Task<int> GetMasterSwitchStatus();
         Task<PoolLightServerModel> GetCurrentPoolLightMode();
-        Task<PoolLightMode> SavePoolLightMode(PoolLightMode mode);
+        Task<PoolLightServerModel> SavePoolLightMode(PoolLightMode mode);
         Task<PoolLightServerModel> GetCurrentSpaLightMode();
-        Task<PoolLightMode> SaveSpaLightMode(PoolLightMode mode);
+        Task<PoolLightServerModel> SaveSpaLightMode(PoolLightMode mode);
         Task<WaterTemp> GetWaterTemp();
     }
 }

@@ -110,16 +110,18 @@ namespace eHub.Common.Services
             return Task.FromResult(true);
         }
 
-        public Task<PoolLightMode> SavePoolLightMode(PoolLightMode mode)
+        public Task<PoolLightServerModel> SavePoolLightMode(PoolLightMode mode)
         {
+            var model = new PoolLightServerModel() {  CurrentMode = (int)mode };
             _poolLightMode = mode;
-            return Task.FromResult(mode);
+            return Task.FromResult(model);
         }
 
-        public Task<PoolLightMode> SaveSpaLightMode(PoolLightMode mode)
+        public Task<PoolLightServerModel> SaveSpaLightMode(PoolLightMode mode)
         {
+            var model = new PoolLightServerModel() {  CurrentMode = (int)mode };
             _spaLightMode = mode;
-            return Task.FromResult(mode);
+            return Task.FromResult(model);
         }
 
         public Task<EquipmentSchedule> SetBoosterSchedule(DateTime startTime, DateTime endTime, bool isActive)

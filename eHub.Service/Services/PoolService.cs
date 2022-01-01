@@ -350,13 +350,13 @@ namespace eHub.Common.Services
             }
         }
 
-        public async Task<PoolLightMode> SavePoolLightMode(PoolLightMode mode)
+        public async Task<PoolLightServerModel> SavePoolLightMode(PoolLightMode mode)
         {
             try
             {
-                var result = await _api.Get<Response<PoolLightMode>>($"savePoolLightMode?mode={(int)mode}");
+                var result = await _api.Get<Response<PoolLightServerModel>>($"savePoolLightMode?mode={(int)mode}");
                 HandleMessages(result?.Messages ?? new List<string>());
-                return result?.Data ?? PoolLightMode.NotSet;
+                return result?.Data ?? new PoolLightServerModel();
             }
             catch (Exception e)
             {
@@ -387,13 +387,13 @@ namespace eHub.Common.Services
             }
         }
 
-        public async Task<PoolLightMode> SaveSpaLightMode(PoolLightMode mode)
+        public async Task<PoolLightServerModel> SaveSpaLightMode(PoolLightMode mode)
         {
             try
             {
-                var result = await _api.Get<Response<PoolLightMode>>($"saveSpaLightMode?mode={(int)mode}");
+                var result = await _api.Get<Response<PoolLightServerModel>>($"saveSpaLightMode?mode={(int)mode}");
                 HandleMessages(result?.Messages ?? new List<string>());
-                return result?.Data ?? PoolLightMode.NotSet;
+                return result?.Data ?? new PoolLightServerModel();
             }
             catch (Exception e)
             {
