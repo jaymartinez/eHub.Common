@@ -8,35 +8,32 @@ namespace eHub.Common.Services
 {
     public class MockPoolService : IPoolService
     {
-        PoolSchedule _schedule = new PoolSchedule();
+        EquipmentSchedule _schedule = new EquipmentSchedule();
         EquipmentSchedule _boosterSchedule = new EquipmentSchedule();
         EquipmentSchedule _poolLightSchedule = new EquipmentSchedule();
         EquipmentSchedule _spaLightSchedule = new EquipmentSchedule();
         EquipmentSchedule _groundLightSchedule = new EquipmentSchedule();
-        PoolLightMode _poolLightMode, _spaLightMode, _previousPoolLightMode, _previousSpaLightMode;
+        LightModeType _poolLightMode, _spaLightMode, _previousPoolLightMode, _previousSpaLightMode;
         int _masterSwitchStatus = 0;
         int _includeBoosterStatus = 0;
-        Dictionary<int, PiPin> _pins;
+        Dictionary<PinType, PiPin> _pins;
 
         public MockPoolService()
         {
-            _poolLightMode = PoolLightMode.NotSet;
-            _spaLightMode = PoolLightMode.NotSet;
-            _previousPoolLightMode = PoolLightMode.NotSet;
-            _previousSpaLightMode = PoolLightMode.NotSet;
+            _poolLightMode = LightModeType.NotSet;
+            _spaLightMode = LightModeType.NotSet;
+            _previousPoolLightMode = LightModeType.NotSet;
+            _previousSpaLightMode = LightModeType.NotSet;
 
-            _pins = new Dictionary<int, PiPin>
+            _pins = new Dictionary<PinType, PiPin>
             {
-                [5] = new PiPin { PinNumber = 5, State = 0 },
-                [6] = new PiPin { PinNumber = 6, State = 0 },
-                [12] = new PiPin { PinNumber = 12, State = 0 },
-                [13] = new PiPin { PinNumber = 13, State = 0 },
-                [23] = new PiPin { PinNumber = 23, State = 0 },
-                [24] = new PiPin { PinNumber = 24, State = 0 },
-                [17] = new PiPin { PinNumber = 17, State = 0 },
-                [19] = new PiPin { PinNumber = 19, State = 0 },
-                [20] = new PiPin { PinNumber = 20, State = 0 },
-                [21] = new PiPin { PinNumber = 21, State = 0 }
+                [PinType.PoolPump] = new PiPin { PinType = PinType.PoolPump, State = 0 },
+                [PinType.SpaPump] = new PiPin { PinType = PinType.SpaPump, State = 0 },
+                [PinType.BoosterPump] = new PiPin { PinType = PinType.BoosterPump, State = 0 },
+                [PinType.Heater] = new PiPin { PinType = PinType.Heater, State = 0 },
+                [PinType.PoolLight] = new PiPin { PinType = PinType.PoolLight, State = 0 },
+                [PinType.SpaLight] = new PiPin { PinType = PinType.SpaLight, State = 0 },
+                [PinType.GroundLights] = new PiPin { PinType = PinType.GroundLights, State = 0 },
             };
         }
 
@@ -45,34 +42,22 @@ namespace eHub.Common.Services
             return Task.FromResult(_pins.Select(_ => _.Value));
         }
 
-        public Task<EquipmentSchedule> GetBoosterSchedule()
+        public Task<LightServerModel> GetCurrentLightMode(LightType lightType)
         {
-            return Task.FromResult(_boosterSchedule);
-        }
+            var model = new LightServerModel();
 
-        public Task<PoolLightServerModel> GetCurrentPoolLightMode()
-        {
-            var model = new PoolLightServerModel()
+            switch (lightType)
             {
-                CurrentMode = (int)_poolLightMode,
-                PreviousMode = (int)_previousPoolLightMode
-            };
+                case LightType.Pool:
+                    model.CurrentMode = _poolLightMode;
+                    model.LightType = LightType.Pool;
+                    break;
+                case LightType.Spa:
+                    model.CurrentMode = _spaLightMode;
+                    model.LightType = LightType.Spa;
+                    break;
+            }
             return Task.FromResult(model);
-        }
-
-        public Task<PoolLightServerModel> GetCurrentSpaLightMode()
-        {
-            var model = new PoolLightServerModel()
-            {
-                CurrentMode = (int)_spaLightMode,
-                PreviousMode = (int)_previousSpaLightMode
-            };
-            return Task.FromResult(model);
-        }
-
-        public Task<EquipmentSchedule> GetGroundLightSchedule()
-        {
-            return Task.FromResult(_groundLightSchedule);
         }
 
         public Task<int> GetMasterSwitchStatus()
@@ -80,24 +65,26 @@ namespace eHub.Common.Services
             return Task.FromResult(_masterSwitchStatus);
         }
 
-        public Task<PiPin> GetPinStatus(int pin)
+        public Task<PiPin> GetPinStatus(PinType pinType)
         {
-            return Task.FromResult(_pins[pin]);
+            return Task.FromResult(_pins[pinType]);
         }
 
-        public Task<EquipmentSchedule> GetPoolLightSchedule()
+        public Task<EquipmentSchedule> GetSchedule(ScheduleType scheduleType)
         {
-            return Task.FromResult(_poolLightSchedule);
-        }
-
-        public Task<PoolSchedule> GetSchedule()
-        {
-            return Task.FromResult(_schedule);
-        }
-
-        public Task<EquipmentSchedule> GetSpaLightSchedule()
-        {
-            return Task.FromResult(_spaLightSchedule);
+            switch (scheduleType)
+            {
+                case ScheduleType.Pool:
+                    return Task.FromResult(_schedule);
+                case ScheduleType.Booster:
+                    return Task.FromResult(_boosterSchedule);
+                case ScheduleType.SpaLight:
+                    return Task.FromResult(_spaLightSchedule);
+                case ScheduleType.PoolLight:
+                    return Task.FromResult(_poolLightSchedule);
+                default:
+                    return Task.FromResult(new EquipmentSchedule());
+            }
         }
 
         public Task<WaterTemp> GetWaterTemp()
@@ -110,86 +97,53 @@ namespace eHub.Common.Services
             return Task.FromResult(true);
         }
 
-        public Task<PoolLightServerModel> SavePoolLightMode(PoolLightMode mode)
+        public Task<LightServerModel> SaveLightMode(LightModeType mode, LightType lightType)
         {
-            var model = new PoolLightServerModel() {  CurrentMode = (int)mode };
-            _poolLightMode = mode;
-            return Task.FromResult(model);
-        }
-
-        public Task<PoolLightServerModel> SaveSpaLightMode(PoolLightMode mode)
-        {
-            var model = new PoolLightServerModel() {  CurrentMode = (int)mode };
-            _spaLightMode = mode;
-            return Task.FromResult(model);
-        }
-
-        public Task<EquipmentSchedule> SetBoosterSchedule(DateTime startTime, DateTime endTime, bool isActive)
-        {
-            _boosterSchedule.StartHour = startTime.Hour;
-            _boosterSchedule.StartMinute = startTime.Minute;
-            _boosterSchedule.EndHour = endTime.Hour;
-            _boosterSchedule.EndMinute = endTime.Minute;
-            _boosterSchedule.IsActive = isActive;
-
-            return Task.FromResult(_boosterSchedule);
-
-        }
-
-        public Task<EquipmentSchedule> SetGroundLightSchedule(DateTime startTime, DateTime endTime, bool isActive)
-        {
-            _groundLightSchedule = new EquipmentSchedule();
-            _groundLightSchedule.StartHour = startTime.Hour;
-            _groundLightSchedule.StartMinute = startTime.Minute;
-            _groundLightSchedule.EndHour = endTime.Hour;
-            _groundLightSchedule.EndMinute = endTime.Minute;
-
-            return Task.FromResult(_groundLightSchedule);
-        }
-
-        public Task<EquipmentSchedule> SetPoolLightSchedule(DateTime startTime, DateTime endTime, bool isActive)
-        {
-            _poolLightSchedule = new EquipmentSchedule();
-            _poolLightSchedule.StartHour = startTime.Hour;
-            _poolLightSchedule.StartMinute = startTime.Minute;
-            _poolLightSchedule.EndHour = endTime.Hour;
-            _poolLightSchedule.EndMinute = endTime.Minute;
-
-            return Task.FromResult(_poolLightSchedule);
-        }
-
-        public Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive, bool includeBooster)
-        {
-            _schedule.StartHour = startTime.Hour;
-            _schedule.StartMinute = startTime.Minute;
-            _schedule.EndHour = endTime.Hour;
-            _schedule.EndMinute = endTime.Minute;
-            _schedule.IsActive = isActive;
-            _schedule.IncludeBooster = includeBooster;
-
-            return Task.FromResult(_schedule);
-        }
-
-        public Task<EquipmentSchedule> SetSpaLightSchedule(DateTime startTime, DateTime endTime, bool isActive)
-        {
-            var sched = new EquipmentSchedule();
-            sched.StartHour = startTime.Hour;
-            sched.StartMinute = startTime.Minute;
-            sched.EndHour = endTime.Hour;
-            sched.EndMinute = endTime.Minute;
-
-            return Task.FromResult(sched);
-        }
-
-        public Task<PiPin> Toggle(int pin)
-        {
-            _pins[pin].State = _pins[pin].State == PinState.ON ? PinState.OFF : PinState.ON;
-
-            if (_pins[pin].State == PinState.ON)
+            var model = new LightServerModel() {  CurrentMode = mode };
+            switch (lightType)
             {
-                _pins[pin].DateActivated = DateTime.Now;
+                case LightType.Pool:
+                    model.LightType = LightType.Pool;
+                    _poolLightMode = mode;
+                    break;
+                case LightType.Spa:
+                    model.LightType = LightType.Spa;
+                    _spaLightMode = mode;
+                    break;
             }
-            return Task.FromResult(_pins[pin]);
+            return Task.FromResult(model);
+        }
+
+        public Task<EquipmentSchedule> SetSchedule(EquipmentSchedule schedule)
+        {
+            switch (schedule.Type)
+            {
+                case ScheduleType.Pool:
+                    _schedule = schedule;
+                    return Task.FromResult(_schedule);
+                case ScheduleType.Booster:
+                    _boosterSchedule = schedule;
+                    return Task.FromResult(_boosterSchedule);
+                case ScheduleType.PoolLight:
+                    _poolLightSchedule = schedule;
+                    return Task.FromResult(_poolLightSchedule);
+                case ScheduleType.SpaLight:
+                    _spaLightSchedule = schedule;
+                    return Task.FromResult(_spaLightSchedule);
+                default:
+                    return Task.FromResult(new EquipmentSchedule());
+            }
+        }
+
+        public Task<PiPin> Toggle(PinType pinType)
+        {
+            _pins[pinType].State = _pins[pinType].State == PinState.ON ? PinState.OFF : PinState.ON;
+
+            if (_pins[pinType].State == PinState.ON)
+            {
+                _pins[pinType].DateActivated = DateTime.Now;
+            }
+            return Task.FromResult(_pins[pinType]);
         }
 
         public Task<int> ToggleIncludeBoosterSwitch()

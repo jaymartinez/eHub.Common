@@ -8,10 +8,10 @@ namespace eHub.Common.Services
     public interface IPoolService
     {
         /// <summary>
-        /// Gets the status for a pin.
+        /// Gets the status for a piece of equipment
         /// </summary>
-        /// <param name="equipmentType">The equipment to get the status for.</param>
-        Task<PiPin> GetPinStatus(int pin);
+        /// <param name="pinType">The <see cref="PinType"/> to get the status for.</param>
+        Task<PiPin> GetPinStatus(PinType pinType);
 
         /// <summary>
         /// Gets statuses for all pins in use.
@@ -26,49 +26,25 @@ namespace eHub.Common.Services
         Task<bool> Ping();
 
         /// <summary>
-        /// Gets the pool timer schedule
+        /// Set timer schedule for pool, booster, lights
         /// </summary>
+        /// <param name="schedule">The schedule to set</param>
+        /// <returns>The schedule that was saved to the server.</returns>
+        Task<EquipmentSchedule> SetSchedule(EquipmentSchedule schedule);
+
+        /// <summary>
+        /// Get timer schedule for the passed in <see cref="ScheduleType"/>
+        /// </summary>
+        /// <param name="scheduleType">The <see cref="ScheduleType"/> to get the schedule of</param>
         /// <returns></returns>
-        Task<PoolSchedule> GetSchedule();
-        Task<EquipmentSchedule> GetBoosterSchedule();
+        Task<EquipmentSchedule> GetSchedule(ScheduleType scheduleType);
 
         /// <summary>
-        /// Sets the main pool schedule.
-        /// Ideally we could have a schedule for each piece of equipment.
+        /// Toggle equipment on or off depending on it's current state on the server
         /// </summary>
-        /// <param name="startTime">When to start the pump.</param>
-        /// <param name="endTime">When to stop the pump.</param>
-        /// <returns>The schedule that was just saved.</returns>
-        Task<PoolSchedule> SetSchedule(DateTime startTime, DateTime endTime, bool isActive, bool includeBooster);
-        Task<EquipmentSchedule> SetBoosterSchedule(DateTime startTime, DateTime endTime, bool isActive);
-
-        /// <summary>
-        /// Gets the pool light schedule
-        /// </summary>
-        Task<EquipmentSchedule> GetPoolLightSchedule();
-
-        /// <summary>
-        /// Sets the pool light schedule
-        /// </summary>
-        /// <returns>The schedule that was just saved.</returns>
-        Task<EquipmentSchedule> SetPoolLightSchedule(DateTime startTime, DateTime endTime, bool isActive);
-
-
-        /// <summary>
-        /// Gets the ground lights schedule
-        /// </summary>
-        Task<EquipmentSchedule> GetGroundLightSchedule();
-
-        /// <summary>
-        /// Sets the ground lights schedule
-        /// </summary>
-        /// <returns>The schedule that was just saved.</returns>
-        Task<EquipmentSchedule> SetGroundLightSchedule(DateTime startTime, DateTime endTime, bool isActive);
-
-        Task<EquipmentSchedule> GetSpaLightSchedule();
-        Task<EquipmentSchedule> SetSpaLightSchedule(DateTime startTime, DateTime endTime, bool isActive);
-
-        Task<PiPin> Toggle(int pin);
+        /// <param name="pinType">The <see cref="PinType"/> to toggle</param>
+        /// <returns>Current state of the equipment after successfully toggling it</returns>
+        Task<PiPin> Toggle(PinType pinType);
 
         /// <summary>
         /// Enables/disables the schedule.
@@ -78,10 +54,22 @@ namespace eHub.Common.Services
 
         Task<int> ToggleIncludeBoosterSwitch();
         Task<int> GetMasterSwitchStatus();
-        Task<PoolLightServerModel> GetCurrentPoolLightMode();
-        Task<PoolLightServerModel> SavePoolLightMode(PoolLightMode mode);
-        Task<PoolLightServerModel> GetCurrentSpaLightMode();
-        Task<PoolLightServerModel> SaveSpaLightMode(PoolLightMode mode);
+
+        /// <summary>
+        /// Get current light mode for pool or spa
+        /// </summary>
+        /// <param name="lightType">The <see cref="LightType"/> either pool or spa</param>
+        /// <returns></returns>
+        Task<LightServerModel> GetCurrentLightMode(LightType lightType);
+
+        /// <summary>
+        /// Save light mode for passed in type
+        /// </summary>
+        /// <param name="mode">The <see cref="LightModeType"/> to save</param>
+        /// <param name="lightType">Whether we are saving the mode type for pool or spa light</param>
+        /// <returns><see cref="LightServerModel"/> representing the current light state after a successful save</returns>
+        Task<LightServerModel> SaveLightMode(LightModeType mode, LightType lightType);
+
         Task<WaterTemp> GetWaterTemp();
     }
 }

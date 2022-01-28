@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace eHub.Common.Models
 {
     [Serializable]
     public class EquipmentSchedule
     {
+        [DataMember]
+        public ScheduleType Type { get; set; }
+
         [DataMember]
         public bool IsActive { get; set; } = false;
 

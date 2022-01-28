@@ -5,37 +5,37 @@ namespace eHub.Common.Helpers
 {
     public static class Extensions
     {
-        public static string ToLightModeText(this PoolLightMode mode)
+        public static string ToLightModeText(this LightModeType mode)
         {
             switch (mode)
             {
-                case PoolLightMode.Sam:
+                case LightModeType.Sam:
                     return "SAM Mode";
-                case PoolLightMode.Party:
+                case LightModeType.Party:
                     return "Party Mode";
-                case PoolLightMode.Romance:
+                case LightModeType.Romance:
                     return "Romance Mode";
-                case PoolLightMode.Caribbean:
+                case LightModeType.Caribbean:
                     return "Caribbean Mode";
-                case PoolLightMode.American:
+                case LightModeType.American:
                     return "American Mode";
-                case PoolLightMode.CaliforniaSunset:
+                case LightModeType.CaliforniaSunset:
                     return "California Sunset Mode";
-                case PoolLightMode.Royal:
+                case LightModeType.Royal:
                     return "Royal Mode";
-                case PoolLightMode.Blue:
+                case LightModeType.Blue:
                     return "Blue Fixed Mode";
-                case PoolLightMode.Green:
+                case LightModeType.Green:
                     return "Green Fixed Mode";
-                case PoolLightMode.Red:
+                case LightModeType.Red:
                     return "Red Fixed Mode";
-                case PoolLightMode.White:
+                case LightModeType.White:
                     return "White Fixed Mode";
-                case PoolLightMode.Magenta:
+                case LightModeType.Magenta:
                     return "Magenta Fixed Mode";
-                case PoolLightMode.Hold:
+                case LightModeType.Hold:
                     return "Holding current color from light show";
-                case PoolLightMode.Recall:
+                case LightModeType.Recall:
                     return "Recall the last saved color effect";
                 default:
                     return "Light mode not set";

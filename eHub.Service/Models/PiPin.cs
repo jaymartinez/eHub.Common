@@ -14,11 +14,8 @@ namespace eHub.Common.Models
         [DataMember]
         public int State { get; set; }
 
-        /// <summary>
-        /// The GPIO pin number
-        /// </summary>
         [DataMember]
-        public int PinNumber { get; set; }
+        public PinType PinType { get; set; }
 
         [DataMember]
         public DateTime DateActivated { get; set; }
@@ -40,24 +37,21 @@ namespace eHub.Common.Models
         {
             get
             {
-                switch (PinNumber)
+                switch (PinType)
                 {
-                    case Pin.PoolPump_1:
-                    case Pin.PoolPump_2:
+                    case PinType.PoolPump:
                         return "Pool Pump";
-                    case Pin.SpaPump_1:
-                    case Pin.SpaPump_2:
+                    case PinType.SpaPump:
                         return "Spa Pump";
-                    case Pin.BoosterPump_1:
-                    case Pin.BoosterPump_2:
+                    case PinType.BoosterPump:
                         return "Booster Pump";
-                    case Pin.Heater:
+                    case PinType.Heater:
                         return "Heater";
-                    case Pin.PoolLight:
+                    case PinType.PoolLight:
                         return "Pool Light";
-                    case Pin.SpaLight:
+                    case PinType.SpaLight:
                         return "Spa Light";
-                    case Pin.GroundLights:
+                    case PinType.GroundLights:
                         return "Ground Lights";
                     default:
                         return "Unknown";

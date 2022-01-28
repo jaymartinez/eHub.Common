@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using eHub.Common.Models;
@@ -11,8 +10,12 @@ namespace eHub.Common.Api
 {
     public class WebInterface : IWebInterface
     {
-
         readonly HttpClient _client;
+
+        /// <summary>
+        /// Add and remove request headers from this property. These headers will be added to each web request made.
+        /// </summary>
+        public IRequestHeaders RequestHeaders { get; }
 
         public WebInterface(Configuration config)
         {
@@ -94,9 +97,23 @@ namespace eHub.Common.Api
             throw new NotImplementedException();
         }
 
-        Task<T> IWebInterface.Post<T>(string route, object body)
+        async Task<T> IWebInterface.Post<T>(string route, object body)
         {
-            throw new NotImplementedException();
+            
+            var uri = new Uri(_client.BaseAddress, route);
+            var content = GetBodyContent(body);
+            var request = AssembleRequest(HttpMethod.Post, uri, content);
+
+            try
+            {
+                var response = await _client.SendAsync(request);
+                return await HandleResponse<T>(response);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"\n\t--->Error in Get<T>(route, body)...{e.Message}\n\t{e.StackTrace}");
+                throw e;
+            }
         }
 
         HttpContent GetBodyContent(object body)
@@ -110,6 +127,26 @@ namespace eHub.Common.Api
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             return content;
+        }
+
+        HttpRequestMessage AssembleRequest(HttpMethod method, Uri uri, HttpContent content = null)
+        {
+            var req = new HttpRequestMessage(method, uri);
+
+            if (RequestHeaders != null)
+            {
+                foreach (var header in RequestHeaders)
+                {
+                    req.Headers.Add(header.Key, header.Value);
+                }
+            }
+
+            if (content != null)
+            {
+                req.Content = content;
+            }
+
+            return req;
         }
 
         async Task<T> HandleResponse<T>(HttpResponseMessage response)
