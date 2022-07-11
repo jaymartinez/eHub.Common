@@ -19,6 +19,15 @@ namespace eHub.Common.Services
         /// <returns><see cref="PiPin"/></returns>
         Task<IEnumerable<PiPin>> GetAllStatuses();
 
+        Task<PoolSpaModel> GetPool();
+        Task<PoolSpaModel> GetSpa();
+        Task<BoosterPumpModel> GetBoosterPump();
+        Task<HeaterModel> GetHeater();
+        Task<PoolSpaModel> SavePool(PoolSpaModel poolModel);
+        Task<PoolSpaModel> SaveSpa(PoolSpaModel spaModel);
+        Task<BoosterPumpModel> SaveBoosterPump(BoosterPumpModel boosterPumpModel);
+        Task<HeaterModel> SaveHeater(HeaterModel heaterModel);
+
         /// <summary>
         /// Heartbeat check.
         /// </summary>

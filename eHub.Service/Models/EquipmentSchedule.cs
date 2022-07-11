@@ -10,18 +10,12 @@ namespace eHub.Common.Models
         public ScheduleType Type { get; set; }
 
         [DataMember]
-        public bool IsActive { get; set; } = false;
+        public bool IsActive { get; set; }
 
         [DataMember]
-        public int StartHour { get; set; } = 8;
+        public TimeSpan StartTime { get; set; } = new TimeSpan(8, 30, 0); 
 
         [DataMember]
-        public int StartMinute { get; set; } = 30;
-
-        [DataMember]
-        public int EndHour { get; set; } = 14;
-
-        [DataMember]
-        public int EndMinute { get; set; } = 30;
+        public TimeSpan EndTime { get; set; } = new TimeSpan(14, 30, 0); 
     }
 }

@@ -6,13 +6,16 @@ using System.Text;
 namespace eHub.Common.Models
 {
     [Serializable]
-    public class LightServerModel
+    public class LightServerModel : PiPin
     {
         [DataMember]
-        public LightModeType CurrentMode { get; set; }  
+        public EquipmentSchedule Schedule {  get; set; }
 
         [DataMember]
-        public LightModeType PreviousMode { get; set; }
+        public LightModeType CurrentMode { get; set; }
+
+        [DataMember]
+        public LightModeType? PreviousMode { get; set; } = LightModeType.NotSet;
 
         [DataMember]
         public LightType LightType { get; set; }

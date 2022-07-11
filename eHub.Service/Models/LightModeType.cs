@@ -20,7 +20,7 @@ namespace eHub.Common.Models
     /// <item><see cref="Recall"/>: 14</item>
     /// </list></code>
     /// </summary>
-    public enum LightModeType
+    public enum LightModeType : byte
     {
         NotSet = 0,
         Sam = 1,

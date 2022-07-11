@@ -5,9 +5,9 @@ using System.Xml.Serialization;
 
 namespace eHub.Common.Models
 {
-    public static class PinState
+    public enum PinState : byte
     {
-        public const int OFF = 0;
-        public const int ON = 1;
+        OFF = 0,
+        ON = 1
     }
 }

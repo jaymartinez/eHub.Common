@@ -7,21 +7,31 @@ namespace eHub.Common.Models
     [Serializable]
     public class PiPin
     {
+
         /// <summary>
         /// 0: The pin is low
         /// 1: The pin is high
         /// </summary>
         [DataMember]
-        public int State { get; set; }
+        public PinState State { get; set; }
+
+        [DataMember]
+        public int GpioPin1 { get; set; }
+
+        /// <summary>
+        /// If applicable, the secondary GPIO pin. Some devices like the pool pump operate
+        /// on two 110v relays.
+        /// </summary>
+        public int? GpioPin2 { get; } = null;
 
         [DataMember]
         public PinType PinType { get; set; }
 
         [DataMember]
-        public DateTime DateActivated { get; set; }
+        public DateTime? DateActivated { get; set; } = null;
 
         [DataMember]
-        public DateTime DateDeactivated { get; set; }
+        public DateTime? DateDeactivated { get; set; } = null;
 
         [IgnoreDataMember]
         public string StateDescription

@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\Equipment.cs" />
     <Compile Remove="Models\PoolPump.cs" />
   </ItemGroup>
 

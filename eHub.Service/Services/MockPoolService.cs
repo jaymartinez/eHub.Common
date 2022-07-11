@@ -42,6 +42,11 @@ namespace eHub.Common.Services
             return Task.FromResult(_pins.Select(_ => _.Value));
         }
 
+        public Task<BoosterPumpModel> GetBoosterPump()
+        {
+            return Task.FromResult(new BoosterPumpModel());
+        }
+
         public Task<LightServerModel> GetCurrentLightMode(LightType lightType)
         {
             var model = new LightServerModel();
@@ -60,6 +65,11 @@ namespace eHub.Common.Services
             return Task.FromResult(model);
         }
 
+        public Task<HeaterModel> GetHeater()
+        {
+            return Task.FromResult(new HeaterModel());
+        }
+
         public Task<int> GetMasterSwitchStatus()
         {
             return Task.FromResult(_masterSwitchStatus);
@@ -68,6 +78,11 @@ namespace eHub.Common.Services
         public Task<PiPin> GetPinStatus(PinType pinType)
         {
             return Task.FromResult(_pins[pinType]);
+        }
+
+        public Task<PoolSpaModel> GetPool()
+        {
+            return Task.FromResult(new PoolSpaModel());
         }
 
         public Task<EquipmentSchedule> GetSchedule(ScheduleType scheduleType)
@@ -87,6 +102,11 @@ namespace eHub.Common.Services
             }
         }
 
+        public Task<PoolSpaModel> GetSpa()
+        {
+            return Task.FromResult(new PoolSpaModel());
+        }
+
         public Task<WaterTemp> GetWaterTemp()
         {
             return Task.FromResult(new WaterTemp { ValueC = 28.5, ValueF = 83.3 });
@@ -95,6 +115,16 @@ namespace eHub.Common.Services
         public Task<bool> Ping()
         {
             return Task.FromResult(true);
+        }
+
+        public Task<BoosterPumpModel> SaveBoosterPump(BoosterPumpModel boosterPumpModel)
+        {
+            return Task.FromResult(new BoosterPumpModel());
+        }
+
+        public Task<HeaterModel> SaveHeater(HeaterModel heaterModel)
+        {
+            return Task.FromResult(new HeaterModel());
         }
 
         public Task<LightServerModel> SaveLightMode(LightModeType mode, LightType lightType)
@@ -112,6 +142,16 @@ namespace eHub.Common.Services
                     break;
             }
             return Task.FromResult(model);
+        }
+
+        public Task<PoolSpaModel> SavePool(PoolSpaModel poolModel)
+        {
+            return Task.FromResult(new PoolSpaModel());
+        }
+
+        public Task<PoolSpaModel> SaveSpa(PoolSpaModel spaModel)
+        {
+            return Task.FromResult(new PoolSpaModel());
         }
 
         public Task<EquipmentSchedule> SetSchedule(EquipmentSchedule schedule)

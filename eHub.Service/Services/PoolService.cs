@@ -11,6 +11,7 @@ namespace eHub.Common.Services
     public class PoolService : ServiceBase, IPoolService
     {
         readonly IWebInterface _api;
+        const string prefix = "api/mobile/";
 
         public PoolService(IWebInterface api)
         {
@@ -27,13 +28,14 @@ namespace eHub.Common.Services
             }
         }
 
+        [Obsolete("WE NEED TO CREATE A BETTER EQUIPMENT OBJECT!!!!")]
         public async Task<IEnumerable<PiPin>> GetAllStatuses()
         {
             try
             {
                 var result = await Task.Run(async () =>
                 {
-                    return await _api.Get<Response<IEnumerable<PiPin>>>("/allStatuses");
+                    return await _api.Get<Response<IEnumerable<PiPin>>>($"{prefix}status");
                 });
 
                 HandleMessages(result?.Messages ?? new List<string>());
@@ -49,7 +51,7 @@ namespace eHub.Common.Services
         {
             try
             {
-                var result = await _api.Get<Response<int>>("masterSwitchStatus");
+                var result = await _api.Get<Response<int>>($"{prefix}masterSwitchStatus");
                 HandleMessages(result?.Messages ?? new List<string>());
                 return result?.Data ?? default;
             }
@@ -63,7 +65,7 @@ namespace eHub.Common.Services
         {
             try
             {
-                var toggle = await _api.Get<Response<PiPin>>($"toggle?pinType={pinType}");
+                var toggle = await _api.Get<Response<PiPin>>($"{prefix}toggle?pinType={pinType}");
                 HandleMessages(toggle?.Messages ?? new List<string>());
                 return toggle?.Data ?? default;
             }
@@ -87,6 +89,7 @@ namespace eHub.Common.Services
             }
         }
 
+        [Obsolete("This method is not used in the new .net core API")]
         public async Task<int> ToggleIncludeBoosterSwitch()
         {
             try
@@ -105,7 +108,7 @@ namespace eHub.Common.Services
         {
             try
             {
-                var result = await _api.Get<Response<IEnumerable<string>>>("ping");
+                var result = await _api.Get<Response<IEnumerable<string>>>($"{prefix}ping");
                 if (result?.Messages?.Count() == 1 && result.Messages.ElementAt(0).ToLower().Equals("ok"))
                 {
                     return true;
@@ -138,7 +141,7 @@ namespace eHub.Common.Services
             var result = new Response<PiPin>();
             try
             {
-                result = await _api.Get<Response<PiPin>>($"status?pinType={pinType}");
+                result = await _api.Get<Response<PiPin>>($"{prefix}status?pinType={pinType}");
             }
             catch (Exception e)
             {
@@ -154,7 +157,7 @@ namespace eHub.Common.Services
         {
             try
             {
-                var result = await _api.Post<Response<EquipmentSchedule>>("setSchedule", schedule);
+                var result = await _api.Post<Response<EquipmentSchedule>>($"{prefix}setSchedule", schedule);
 
                 HandleMessages(result?.Messages ?? new List<string>());
                 return result?.Data ?? default;
@@ -171,7 +174,7 @@ namespace eHub.Common.Services
             {
                 var result = await Task.Run(async () =>
                 {
-                    return await _api.Get<Response<EquipmentSchedule>>($"getSchedule?scheduleType={scheduleType}");
+                    return await _api.Get<Response<EquipmentSchedule>>($"{prefix}getSchedule?scheduleType={scheduleType}");
                 });
 
                 HandleMessages(result?.Messages ?? new List<string>());
@@ -187,7 +190,7 @@ namespace eHub.Common.Services
         {
             try
             {
-                var result = await _api.Get<Response<LightServerModel>>($"getCurrentLightMode?lightType={lightType}");
+                var result = await _api.Get<Response<LightServerModel>>($"{prefix}getCurrentLightMode?lightType={lightType}");
                 HandleMessages(result?.Messages ?? new List<string>());
                 return result?.Data ?? new LightServerModel();
             }
@@ -201,9 +204,153 @@ namespace eHub.Common.Services
         {
             try
             {
-                var result = await _api.Get<Response<LightServerModel>>($"saveLightMode?lightMode={mode}&lightType={lightType}");
+                var result = await _api.Get<Response<LightServerModel>>($"{prefix}saveLightMode?lightMode={mode}&lightType={lightType}");
                 HandleMessages(result?.Messages ?? new List<string>());
                 return result?.Data ?? new LightServerModel();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<PoolSpaModel> GetPool()
+        {
+            try
+            {
+                var result = await Task.Run(async () =>
+                {
+                    return await _api.Get<Response<PoolSpaModel>>($"{prefix}get/pool");
+                });
+
+                HandleMessages(result?.Messages ?? new List<string>());
+                return result?.Data ?? new PoolSpaModel();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<PoolSpaModel> GetSpa()
+        {
+            try
+            {
+                var result = await Task.Run(async () =>
+                {
+                    return await _api.Get<Response<PoolSpaModel>>($"{prefix}get/spa");
+                });
+
+                HandleMessages(result?.Messages ?? new List<string>());
+                return result?.Data ?? new PoolSpaModel();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<BoosterPumpModel> GetBoosterPump()
+        {
+            try
+            {
+                var result = await Task.Run(async () =>
+                {
+                    return await _api.Get<Response<BoosterPumpModel>>($"{prefix}get/booster");
+                });
+
+                HandleMessages(result?.Messages ?? new List<string>());
+                return result?.Data ?? new BoosterPumpModel();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<HeaterModel> GetHeater()
+        {
+            try
+            {
+                var result = await Task.Run(async () =>
+                {
+                    return await _api.Get<Response<HeaterModel>>($"{prefix}get/heater");
+                });
+
+                HandleMessages(result?.Messages ?? new List<string>());
+                return result?.Data ?? new HeaterModel();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<PoolSpaModel> SavePool(PoolSpaModel poolModel)
+        {
+            try
+            {
+                var result = await Task.Run(async () =>
+                {
+                    return await _api.Post<Response<PoolSpaModel>>($"{prefix}save/pool", poolModel);
+                });
+
+                HandleMessages(result?.Messages ?? new List<string>());
+                return result?.Data ?? new PoolSpaModel();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<PoolSpaModel> SaveSpa(PoolSpaModel spaModel)
+        {
+            try
+            {
+                var result = await Task.Run(async () =>
+                {
+                    return await _api.Post<Response<PoolSpaModel>>($"{prefix}save/spa", spaModel);
+                });
+
+                HandleMessages(result?.Messages ?? new List<string>());
+                return result?.Data ?? new PoolSpaModel();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<BoosterPumpModel> SaveBoosterPump(BoosterPumpModel boosterPumpModel)
+        {
+            try
+            {
+                var result = await Task.Run(async () =>
+                {
+                    return await _api.Post<Response<BoosterPumpModel>>($"{prefix}save/booster", boosterPumpModel);
+                });
+
+                HandleMessages(result?.Messages ?? new List<string>());
+                return result?.Data ?? new BoosterPumpModel();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<HeaterModel> SaveHeater(HeaterModel heaterModel)
+        {
+            try
+            {
+                var result = await Task.Run(async () =>
+                {
+                    return await _api.Post<Response<HeaterModel>>($"{prefix}save/heater", heaterModel);
+                });
+
+                HandleMessages(result?.Messages ?? new List<string>());
+                return result?.Data ?? new HeaterModel();
             }
             catch (Exception e)
             {

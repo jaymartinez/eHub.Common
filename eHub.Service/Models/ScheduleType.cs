@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace eHub.Common.Models
 {
     /// <summary>
@@ -10,11 +12,14 @@ namespace eHub.Common.Models
     /// <item><see cref="SpaLight"/>: 4</item>
     /// </list></code>
     /// </summary>
+    [Serializable]
     public enum ScheduleType : byte
     {
+        Invalid = 0,
         Booster = 1,
         Pool = 2,
         PoolLight = 3,
-        SpaLight = 4
+        SpaLight = 4,
+        GroundLights = 5,
     }
 }
